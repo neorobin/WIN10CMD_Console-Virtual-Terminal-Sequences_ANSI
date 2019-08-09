@@ -13,8 +13,8 @@ if defined _ASCII219 (
 set "_PEN_SCALE=*"
 
 set /a "_WID=75,_HEI=75,_R_FACE=_WID/2-2, _R_FACE_SQ=_R_FACE*_R_FACE, _R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2,_PINLEN_S=_R_FACE-3,_PINLEN_M=_PINLEN_S-1,_PINLEN_H=_PINLEN_S/2+3,_PINLEN_D=_PINLEN_S/2-0"
-REM color 0F & mode !_WID!,!_HEI!
-color 0F & mode !_WID!,200
+color 0F & mode !_WID!,!_HEI!
+REM color 0F & mode !_WID!,200
 set "Path="
 
 
@@ -78,7 +78,7 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 	REM gen Clock dial
 
 
-	REM <nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
+	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
 
 	for /L %%x in (1 1 %_XC%) do (
@@ -105,9 +105,9 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 	)
 
-		title gen Clock dial %%x / %_XC% pause
+		title gen Clock dial done. pause
 
-		pause
+		REM >nul pause
 
 
 
