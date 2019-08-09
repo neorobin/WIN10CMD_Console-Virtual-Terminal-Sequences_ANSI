@@ -80,21 +80,14 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
-
 	for /L %%x in (1 1 %_XC%) do (
 		for /L %%y in (1 1 %_YC%) do (
-			REM <nul set /p "=%%x,%%y;"
 			set /a "_dx=%%x-%_XC%, _dy=%%y-%_YC%, t=_dx*_dx+_dy*_dy-%_R_FACE_SQ%-1"
 			if !t! lss 0 (
-				REM <nul set /p "=-;"
-					set /a "#x_=%_2XC%-%%x, #y_=%_2YC%-%%y"
-					set "$pin=%_ESC%[!#x_!;%%yH%_PEN%%_ESC%[%%x;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[%%x;%%yH%_PEN%!$pin!"
-			) else (
-				REM <nul set /p "=+;"
+				set /a "#x_=%_2XC%-%%x, #y_=%_2YC%-%%y"
+				set "$pin=%_ESC%[!#x_!;%%yH%_PEN%%_ESC%[%%x;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[%%x;%%yH%_PEN%!$pin!"
 			)
 		)
-
-		REM <nul set /p "=:"
 		set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
 
 		<nul set /p "=!$pin!"
@@ -102,7 +95,6 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 		set "$pin="
 
 		title gen Clock dial %%x / %_XC%
-
 	)
 
 		title gen Clock dial done. pause
