@@ -171,7 +171,7 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 			for /l %%a in (0 1 %_PINLEN_H%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-				set "$pin=%_ESC%[!#x!;!#y!H@!$pin!"
+				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
 			set "$pin=%_ESC%[38;2;!_RGB_H!m!$pin!"
 
@@ -180,7 +180,7 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 			for /l %%a in (0 1 %_PINLEN_M%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-				set "$pin=%_ESC%[!#x!;!#y!H@!$pin!"
+				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
 			set "$pin=%_ESC%[38;2;!_RGB_M!m!$pin!"
 
@@ -189,7 +189,7 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 			for /l %%a in (0 1 %_PINLEN_S%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-				set "$pin=%_ESC%[!#x!;!#y!H@!$pin!"
+				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
 			set "$pin=%_ESC%[38;2;!_RGB_S!m!$pin!"
 
@@ -198,14 +198,14 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 			for /l %%a in (0 1 %_PINLEN_D%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-				set "$pin=%_ESC%[!#x!;!#y!H@!$pin!"
+				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
 			set "$pin=%_ESC%[38;2;!_RGB_D!m!$pin!"
 
 
 			<nul set /p "=!$erase_last_pin!!$pin!"
 
-			set "$erase_last_pin=!$pin:@= !"
+			set "$erase_last_pin=!$pin:%_PEN%= !"
 			set "$pin="
 
 			title !tm!
