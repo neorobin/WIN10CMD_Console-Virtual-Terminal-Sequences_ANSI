@@ -48,9 +48,9 @@ for /L %%i in (0 1 5000) do (
 
 	set /a "xt=XC, yt=YC"
     for /l %%a in (0 1 !wid_div_2!) do (
-		set /a "r=%%a, x=xt/10000, xt+=COSt, y=yt/10000, yt+=SINt,  x1=x+1, y1=y+1"
+		set /a "x=xt/10000+1, xt+=COSt, y=yt/10000+1, yt+=SINt"
 
-		set "pin=!pin!!ESC![!x1!;!y1!H!ESC![38;5;!hue!m@"
+		set "pin=!pin!!ESC![!x!;!y!H!ESC![38;5;!hue!m@"
     )
 
 	<nul set /p "=!erase_last_pin!!pin!"
