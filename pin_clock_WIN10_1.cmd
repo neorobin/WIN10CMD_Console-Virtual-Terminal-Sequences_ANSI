@@ -72,11 +72,6 @@ set /a "_SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
 
 			set /a "th+=-%_SPEED%+%_2PI%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XC%-#C, $y=%_YC%-#S"
 
-			REM , $x_=%_XC%+#C, $y_=%_YC%+#S
-			REM , #x_=($x_+=#C)/10000+1, #y_=($y_+=#S)/10000+1
-			REM %_ESC%[!#x_!;!#y_!H#
-			
-			REM set /a "_2XC=(%_XC%/10000+1)*2, _2YC=(%_YC%/10000+1)*2"
 
 			for /l %%a in (0 1 %_R_FACE%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
