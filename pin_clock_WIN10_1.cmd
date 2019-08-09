@@ -10,6 +10,7 @@ if defined _ASCII219 (
 ) else (
 	set "_PEN=#"
 )
+set "_PEN_SCALE=*"
 
 set /a "_WID=75,_HEI=75,_R_FACE=_WID/2-2,_R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2,_PINLEN_S=_R_FACE-3,_PINLEN_M=_PINLEN_S-1,_PINLEN_H=_PINLEN_S/2+3,_PINLEN_D=_PINLEN_S/2-0"
 color 0F & mode !_WID!,!_HEI!
@@ -80,7 +81,7 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 			for /l %%a in (0 1 %_R_FACE%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
-				REM set "$pin=%_ESC%[!#x_!;!#y!H@%_ESC%[!#x!;!#y_!H@%_ESC%[!#x_!;!#y_!H@%_ESC%[!#x!;!#y!H@!$pin!"
+
 				set "$pin=%_ESC%[!#x_!;!#y!H%_PEN%%_ESC%[!#x!;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
 			set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
@@ -107,11 +108,11 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 				if !r3!==0 (
 					if %%a geq %_R_FACE_2% if %%a lss %_R_FACE% (
-						set "$pin=%_ESC%[!#x!;!#y!H*!$pin!"
+						set "$pin=%_ESC%[!#x!;!#y!H%_PEN_SCALE%!$pin!"
 					)
 				) else (
 					if %%a equ %_R_FACE_1% (
-						set "$pin=%_ESC%[!#x!;!#y!H*!$pin!"
+						set "$pin=%_ESC%[!#x!;!#y!H%_PEN_SCALE%!$pin!"
 					)
 				)
 
