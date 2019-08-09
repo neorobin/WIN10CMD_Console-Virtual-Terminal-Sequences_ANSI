@@ -1,9 +1,15 @@
 @echo off & setlocal enabledelayedexpansion
-chcp 437
+>nul chcp 437
 
 (for /f "delims==" %%a in ('set') do set "%%a=") & set "Path=%SystemRoot%\system32"
 
 for /F %%a in ('echo prompt $E^| cmd') do set "_ESC=%%a"
+REM call :getASCII219 & rem get ASCII 219 to var _ASCII219
+if defined _ASCII219 (
+	set "_PEN=%_ASCII219%"
+) else (
+	set "_PEN=#"
+)
 
 set /a "_WID=75,_HEI=75,_R_FACE=_WID/2-2,_R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2,_PINLEN_S=_R_FACE-3,_PINLEN_M=_PINLEN_S-1,_PINLEN_H=_PINLEN_S/2+3,_PINLEN_D=_PINLEN_S/2-0"
 color 0F & mode !_WID!,!_HEI!
@@ -74,7 +80,8 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 			for /l %%a in (0 1 %_R_FACE%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
-				set "$pin=%_ESC%[!#x_!;!#y!H@%_ESC%[!#x!;!#y_!H@%_ESC%[!#x_!;!#y_!H@%_ESC%[!#x!;!#y!H@!$pin!"
+				REM set "$pin=%_ESC%[!#x_!;!#y!H@%_ESC%[!#x!;!#y_!H@%_ESC%[!#x_!;!#y_!H@%_ESC%[!#x!;!#y!H@!$pin!"
+				set "$pin=%_ESC%[!#x_!;!#y!H%_PEN%%_ESC%[!#x!;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
 			set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
 
