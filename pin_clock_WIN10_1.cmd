@@ -117,7 +117,7 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 			<nul set /p "=!$erase_last_pin!!$pin!"
 
-			REM set "$erase_last_pin=!$pin:@= !"
+
 			set "$pin="
 
 			title gen Clock dial %%i / 700
@@ -209,3 +209,31 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 >nul pause
 exit
 
+
+:getASCII219
+call :getASCII219_
+>nul copy 219.chr /b + 13.chr /b 219_CR.chr /b
+<219_CR.chr set /p "_ASCII219="
+for %%N in (13 219 219_CR) do del %%N.chr
+exit /b
+REM end of :getBackSpaceAndASCII219
+
+
+REM ***
+:getASCII219_
+setlocal
+set ^"genchr=(^
+  for %%N in (13 219) do if not exist %%N.chr (^
+  makecab /d compress=off /d reserveperdatablocksize=26 /d reserveperfoldersize=%%N 0.tmp %%N.chr ^>nul^&^
+  type %%N.chr ^| ((for /l %%n in (1 1 38) do pause)^>nul^&findstr "^^" ^>%%N.temp)^&^
+  ^>nul copy /y %%N.temp /a %%N.chr /b^&^
+  del %%N.temp^
+  )^
+)^&^
+del 0.tmp^"
+for %%N in (13 219) do (del /f /q /a %%N.chr >nul 2>&1)
+type nul >0.tmp
+cmd /q /v:on /c "%genchr%"
+endlocal
+exit /b
+REM end of :getASCII219_
