@@ -35,15 +35,20 @@ REM <nul set /p "=%_ESC%[!p"
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::
-:: angle of HOUR PIN: 		HH * 30deg + MM * 30deg / 60 + SS * 30deg / 3600
-:: 							 = ((HH * 60 + MM) * 60 + SS) * 30deg / 3600
-:: 							 = ((HH * 60 + MM) * 60 + SS) * deg / 120
+:: angle of HOUR PIN: 				HH * 30deg + MM * 30deg / 60 + SS * 30deg / 3600
+:: 									 = ((HH * 60 + MM) * 60 + SS) * 30deg / 3600
+:: 									 = ((HH * 60 + MM) * 60 + SS) * deg / 120
 ::
-:: angle of MINUTE PIN: 	MM * 6deg + SS * 6deg / 60
-:: 							 = (MM * 60 + SS) * 6deg / 60
-:: 							 = (MM * 60 + SS) * deg / 10
+:: angle of MINUTE PIN: 			MM * 6deg + SS * 6deg / 60
+:: 									 = (MM * 60 + SS) * 6deg / 60
+:: 									 = (MM * 60 + SS) * deg / 10
 ::
-:: angle of SECOND PIN: 	SS * 6deg
+:: angle of SECOND PIN: 			SS * 6deg
+::     								OR
+::									(SS * 100 + DD)	/ 100 * 6deg
+::									 = (SS * 100 + DD) * 6deg / 100
+::
+:: angle of Percentile second PIN: 	DD * 360deg / 100 = DD * 36deg / 10
 ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -73,95 +78,49 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 
 
-
-
-	REM gen Clock dial
-
-
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
-	for /L %%x in (1 1 %_XC%) do (
-		for /L %%y in (1 1 %_YC%) do (
-			set /a "_dx=%%x-%_XC%, _dy=%%y-%_YC%, t=_dx*_dx+_dy*_dy-%_R_FACE_SQ%-1"
-			if !t! lss 0 (
-				set /a "#x_=%_2XC%-%%x, #y_=%_2YC%-%%y"
-				set "$pin=%_ESC%[!#x_!;%%yH%_PEN%%_ESC%[%%x;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[%%x;%%yH%_PEN%!$pin!"
+	if 1==1 (
+		REM gen clock dial: Distance method, quick but not meticulous
+		title gen clock dial: Distance method, quick but not meticulous
+		for /L %%x in (1 1 %_XC%) do (
+			for /L %%y in (1 1 %_YC%) do (
+				set /a "_dx=%%x-%_XC%, _dy=%%y-%_YC%, t=_dx*_dx+_dy*_dy-%_R_FACE_SQ%-1"
+				if !t! lss 0 (
+					set /a "#x_=%_2XC%-%%x, #y_=%_2YC%-%%y"
+					set "$pin=%_ESC%[!#x_!;%%yH%_PEN%%_ESC%[%%x;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[%%x;%%yH%_PEN%!$pin!"
+				)
 			)
+			set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
+			<nul set /p "=!$pin!"
+			set "$pin="
 		)
-		set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
-
-		<nul set /p "=!$pin!"
-
-		set "$pin="
-
-		title gen Clock dial %%x / %_XC%
 	)
 
-		title gen Clock dial done. pause
 
-		REM >nul pause
-
-
-
+	REM gen clock dial: rotary scanning polishing edge
 	for /L %%i in (0 1 %_DENSITY%) do (
-
 			set /a "th+=-%_SPEED%+%_2PI%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 
 			for /l %%a in (0 1 %_R_FACE%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
-
 				set "$pin=%_ESC%[!#x_!;!#y!H%_PEN%%_ESC%[!#x!;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
 			set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
-
 			<nul set /p "=!$pin!"
-
 			set "$pin="
-
-			title gen Clock dial %%i / %_DENSITY%
-
+			title gen clock dial: rotary scanning polishing edge %%i / %_DENSITY%
 	)
 
 
-
-
-
-
-
-	if 1==0 (
-		<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
-		for /L %%i in (0 1 %_DENSITY%) do (
-
-				set /a "th+=-%_SPEED%+%_2PI%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-
-				for /l %%a in (0 1 %_R_FACE%) do (
-					set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
-
-					set "$pin=%_ESC%[!#x_!;!#y!H%_PEN%%_ESC%[!#x!;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
-				)
-				set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
-
-				<nul set /p "=!$pin!"
-
-				set "$pin="
-
-				title gen Clock dial %%i / %_DENSITY%
-
-		)
-	)
-
-
-	REM ±ê¿Ì¶È scale
+	REM nail up scale
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 	for /L %%i in (0 1 11) do (
-
 			set /a "r3=%%i %% 3"
 			set /a "th=%_PI% + %%i*%_2PI%/12 + %_2PI%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 
-
 			for /l %%a in (0 1 %_R_FACE%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-
 				if !r3!==0 (
 					if %%a geq %_R_FACE_2% if %%a lss %_R_FACE% (
 						set "$pin=%_ESC%[!#x!;!#y!H%_PEN_SCALE%!$pin!"
@@ -171,41 +130,14 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 						set "$pin=%_ESC%[!#x!;!#y!H%_PEN_SCALE%!$pin!"
 					)
 				)
-
-
 			)
 			set "$pin=%_ESC%[38;2;%_RGB_SCALE%m!$pin!"
-
-
-
-
 			<nul set /p "=!$erase_last_pin!!$pin!"
-
-
 			set "$pin="
-
-			title gen Clock dial %%i / 700
-
+			title nail up scale %%i / 11
 	)
 
-
-
-
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -216,13 +148,12 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 		set /a "t=!time:~-1!" & set /a "t ^= z, z ^= t"
 		if !t! neq 0 (
 
-
-
 			set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, DD=1!tm:~-2!-100"
 
+			REM (SS * 100 + DD) * %_6DEG% / 100
 
-
-			set /a "th_S=%_PI% - SS*%_6DEG% + %_2PI%, th_M=%_PI% + %_2PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% + %_2PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG% + %_2PI%"
+			REM set /a "th_S=%_PI% - SS*%_6DEG% + %_2PI%, th_M=%_PI% + %_2PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% + %_2PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG% + %_2PI%"
+			set /a "th_S=%_PI% - (SS * 100 + DD) * %_6DEG% / 100 + %_2PI%, th_M=%_PI% + %_2PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% + %_2PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG% + %_2PI%"
 
 			set /a "th=th_H, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 
