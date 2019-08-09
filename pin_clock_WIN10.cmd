@@ -46,9 +46,9 @@ for /L %%i in (0 1 5000) do (
 
 	set "pin="
 
-	set /a "xt=XC, yt=YC"
+	set /a "xt=XC-COSt, yt=YC-SINt"
     for /l %%a in (0 1 !wid_div_2!) do (
-		set /a "x=xt/10000+1, xt+=COSt, y=yt/10000+1, yt+=SINt"
+		set /a "x=(xt+=COSt)/10000+1, y=(yt+=SINt)/10000+1"
 
 		set "pin=!pin!!ESC![!x!;!y!H!ESC![38;5;!hue!m@"
     )
