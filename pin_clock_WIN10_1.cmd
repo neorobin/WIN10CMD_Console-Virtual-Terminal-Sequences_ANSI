@@ -51,7 +51,7 @@ REM <nul set /p "=%_ESC%[!p"
 	set "_RGB_FACE=255;255;255"
 	set "_RGB_D=0;255;0"
 	set "_RGB_S=255;0;0"
-	set "_RGB_M=0;0;0"
+	set "_RGB_M=100;100;100"
 	set "_RGB_H=0;0;0"
 
 
@@ -66,7 +66,7 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 	set /a "_HUE_H=0xFF, _HUE_M=0xBB, _HUE_S=0x55, _HUE_D=0x88"
 	set "_RGB_D=0;255;0"
 	set "_RGB_S=255;0;0"
-	set "_RGB_M=0;0;0"
+	set "_RGB_M=100;100;100"
 	set "_RGB_H=0;0;0"
 
 
