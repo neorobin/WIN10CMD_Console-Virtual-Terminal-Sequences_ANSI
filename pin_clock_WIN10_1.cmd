@@ -5,8 +5,8 @@ chcp 437
 
 for /F %%a in ('echo prompt $E^| cmd') do set "_ESC=%%a"
 
-set /a "_WID=75, _HEI=75, _PINLEN_S = _WID / 2 - 3, _PINLEN_M = _WID / 2 - 9, _PINLEN_H = _PINLEN_S / 2 + 3,  _PINLEN_D = _PINLEN_S / 2 - 0"
-color f0 & mode !_WID!,!_HEI!
+set /a "_WID=75,_HEI=75,_R_FACE=_WID/2-2,_R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2,_PINLEN_S=_R_FACE-3,_PINLEN_M=_PINLEN_S-1,_PINLEN_H=_PINLEN_S/2+3,_PINLEN_D=_PINLEN_S/2-0"
+color 0F & mode !_WID!,!_HEI!
 set "Path="
 
 
@@ -16,7 +16,8 @@ set "_COS=(10000-t*t/20000+t*t/1875*t/15625*t/819200-t*t/1875*t/15360*t/15625*t/
 set /a "_PI=31416, _2PI=2*_PI, _PI#2=_PI/2, _3PI#2=3*_PI/2, _3PI#2_1=_3PI#2-1, _DEG=_PI/180, _6DEG=6*_PI/180, _30DEG=30*_PI/180, _3.6DEG=36*_PI/(180*10)"
 
 
-set /a "_XC = 10000 * _WID/2, _YC = 10000 * _HEI/2, _TH0=!random! %% 360 * %_DEG%"
+set /a "_XC = 10000 * _WID/2, _YC = 10000 * _HEI/2, _TH0=!random! %% 360 * %_DEG%, _TH0=0"
+set /a "_2XC=(%_XC%/10000+1)*2, _2YC=(%_YC%/10000+1)*2"
 
 
 REM <nul set /p "=%_ESC%[!p"
@@ -37,8 +38,13 @@ REM <nul set /p "=%_ESC%[!p"
 ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+	set "_RGB_SCALE=0;0;255"
+	set "_RGB_FACE=255;255;255"
+	set "_RGB_D=0;255;0"
+	set "_RGB_S=255;0;0"
+	set "_RGB_M=0;0;0"
+	set "_RGB_H=0;0;0"
 
-REM PAUSE
 
 set "$erase_last_pin="
 set /a "_SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
@@ -46,18 +52,120 @@ set /a "_SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
 (
 	for /f "delims==" %%a in ('set _') do set "%%a="
 
-	set /a "_PINLEN_S = %_WID% / 2 - 3, _PINLEN_M = %_WID% / 2 - 6, _PINLEN_H = _PINLEN_S / 2 + 3, _PINLEN_D = _PINLEN_S / 4"
-	set /a "_HUE_H=0xFF, _HUE_M=0xBB, _HUE_S=0x55, _HUE_D=0x88, "
+
+	set /a "_PINLEN_S=%_R_FACE%-3,_PINLEN_M=_PINLEN_S-1,_PINLEN_H=_PINLEN_S/2+3,_PINLEN_D=_PINLEN_S/4"
+	set /a "_HUE_H=0xFF, _HUE_M=0xBB, _HUE_S=0x55, _HUE_D=0x88"
 	set "_RGB_D=0;255;0"
 	set "_RGB_S=255;0;0"
 	set "_RGB_M=0;0;0"
 	set "_RGB_H=0;0;0"
 
+
+
+
+
+
+
+	REM gen Clock dial
+	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
+	for /L %%i in (1 1 150) do (
+
+			set /a "th+=-%_SPEED%+%_2PI%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XC%-#C, $y=%_YC%-#S"
+
+			REM , $x_=%_XC%+#C, $y_=%_YC%+#S
+			REM , #x_=($x_+=#C)/10000+1, #y_=($y_+=#S)/10000+1
+			REM %_ESC%[!#x_!;!#y_!H#
+			
+			REM set /a "_2XC=(%_XC%/10000+1)*2, _2YC=(%_YC%/10000+1)*2"
+
+			for /l %%a in (0 1 %_R_FACE%) do (
+				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
+				set "$pin=%_ESC%[!#x!;!#y!H@!$pin!"
+				set "$pin=%_ESC%[!#x_!;!#y_!H@!$pin!"
+				set "$pin=%_ESC%[!#x!;!#y_!H@!$pin!"
+				set "$pin=%_ESC%[!#x_!;!#y!H@!$pin!"
+			)
+			set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
+
+
+
+
+			<nul set /p "=!$erase_last_pin!!$pin!"
+
+			REM set "$erase_last_pin=!$pin:@= !"
+			set "$pin="
+
+			title gen Clock dial %%i / 150
+
+	)
+
+
+	REM ±ê¿Ì¶È scale
+	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
+	for /L %%i in (0 1 11) do (
+
+			set /a "r3=%%i %% 3"
+			set /a "th=%_PI% + %%i*%_2PI%/12 + %_2PI%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XC%-#C, $y=%_YC%-#S"
+
+
+			for /l %%a in (0 1 %_R_FACE%) do (
+				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
+
+				if !r3!==0 (
+					if %%a geq %_R_FACE_2% (
+						set "$pin=%_ESC%[!#x!;!#y!H*!$pin!"
+					)
+				) else (
+					if %%a equ %_R_FACE_1% (
+						set "$pin=%_ESC%[!#x!;!#y!H*!$pin!"
+					)
+				)
+
+
+			)
+			set "$pin=%_ESC%[38;2;%_RGB_SCALE%m!$pin!"
+
+
+
+
+			<nul set /p "=!$erase_last_pin!!$pin!"
+
+			REM set "$erase_last_pin=!$pin:@= !"
+			set "$pin="
+
+			title gen Clock dial %%i / 700
+
+	)
+
+
+
+
+	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	for /L %%i in () do (
 
-		REM set /a "t=!time:~7,1!" & set /a "t ^= z, z ^= t"
 		set /a "t=!time:~-1!" & set /a "t ^= z, z ^= t"
 		if !t! neq 0 (
+
+
 
 			set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, DD=1!tm:~-2!-100"
 
@@ -101,16 +209,12 @@ set /a "_SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
 			set "$pin=%_ESC%[38;2;!_RGB_D!m!$pin!"
 
 
-
-
-
-
 			<nul set /p "=!$erase_last_pin!!$pin!"
 
 			set "$erase_last_pin=!$pin:@= !"
 			set "$pin="
 
-			title !tm!: th=!th!; _DTH=%_DTH%;  {_HUE_S=!_HUE_S!}
+			title !tm!
 		)
 	)
 )
