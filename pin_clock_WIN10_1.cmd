@@ -23,6 +23,7 @@ REM <nul set /p "=%_ESC%[!p"
 
 <nul set /p "=%_ESC%[?25l" & REM _ESC [ ? 25 l	DECTCEM	Text Cursor Enable Mode Hide	Hide the cursor
 
+
 set "$erase_last_pin="
 set /a "_SPEED=3*%_DEG%, th=_TH0+%_2PI%, hue=88, _DTH=-_SPEED"
 
@@ -31,22 +32,29 @@ set /a "_SPEED=3*%_DEG%, th=_TH0+%_2PI%, hue=88, _DTH=-_SPEED"
 
 	for /L %%i in (0 1 500000) do (
 
-		set /a "th+=-%_SPEED%+%_2PI%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XC%-#C, $y=%_YC%-#S"
+		REM set /a "t=!time:~-1!" & set /a "t ^= z, z ^= t"
+		REM if !t! neq 0 (
 
-		REM set /a "hue=!random! %% 256"
+			REM set "tm=!time: =0!" & set "se=1!tm:~6,2!-100"
 
-		for /l %%a in (0 1 %_HALF_WID%) do (
-			set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-			set "$pin=%_ESC%[!#x!;!#y!H@!$pin!"
-		)
-		set "$pin=%_ESC%[38;5;!hue!m!$pin!"
 
-		<nul set /p "=!$erase_last_pin!!$pin!"
+			set /a "th+=-%_SPEED%+%_2PI%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XC%-#C, $y=%_YC%-#S"
 
-		set "$erase_last_pin=!$pin:@= !"
-		set "$pin="
+			REM set /a "hue=!random! %% 256"
 
-		REM title %%i / 500000; th=!th!; _DTH=%_DTH%;  {hue=!hue!}
+			for /l %%a in (0 1 %_HALF_WID%) do (
+				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
+				set "$pin=%_ESC%[!#x!;!#y!H@!$pin!"
+			)
+			set "$pin=%_ESC%[38;5;!hue!m!$pin!"
+
+			<nul set /p "=!$erase_last_pin!!$pin!"
+
+			set "$erase_last_pin=!$pin:@= !"
+			set "$pin="
+
+			title !tm:~6,2!: %%i / 500000; th=!th!; _DTH=%_DTH%;  {hue=!hue!}
+		REM )
 	)
 )
 
