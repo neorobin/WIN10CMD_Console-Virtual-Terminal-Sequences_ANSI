@@ -162,7 +162,11 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
-	set "__=0" & set "_= "
+
+	REM $__=0 用于 在 E 和 K 位 不报错
+	REM "#_= " 用于 在 E 和 K 位 让运算式 "S=!S!#!#%%$!" 有值可取
+	set "$__=0" & set "#_=0"
+
 
 	set /a "_cnt=0"
 	for /L %%i in () do (
@@ -207,9 +211,7 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 			set /a "_cnt+=1"
 			title !tm! double display B: _cnt=!_cnt!
 
-						REM $__=0 用于 在 E 和 K 位 不报错
-						REM "#_= " 用于 在 E 和 K 位 让运算式 "S=!S!#!#%%$!" 有值可取
-						set "$__=0" & set "#_=0"
+
 						set "S=" & set "_0or1=0"
 
 						REM 从上到下 逐次 生成 1~5 行图形
