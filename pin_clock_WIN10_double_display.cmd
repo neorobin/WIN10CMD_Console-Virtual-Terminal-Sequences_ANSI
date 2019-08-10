@@ -207,10 +207,6 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 			set /a "_cnt+=1"
 			title !tm! double display B: _cnt=!_cnt!
 
-			if 1==1 (
-
-					(
-
 						REM $__=0 用于 在 E 和 K 位 不报错
 						REM "#_= " 用于 在 E 和 K 位 让运算式 "S=!S!#!#%%$!" 有值可取
 						set "$__=0" & set "#_=0"
@@ -261,11 +257,7 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 						set "S=!S:_0= !" & set "S=!S:_1=%_PEN%!"
 
-					)
-
-				<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S!"
-
-			)
+						<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S!"
 
 	)
 )
