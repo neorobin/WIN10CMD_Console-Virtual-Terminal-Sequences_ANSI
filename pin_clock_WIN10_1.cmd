@@ -188,7 +188,8 @@ set /a "_DDS_OF_A_DAY=24*60*60*100"
 
 			title !tm!
 			REM 每 GAP 帧计算一次 FPS, ! GAP 必须是不小于 2 的 2的幂
-			set /a "GAP=32, _cnt+=1, t=-(_cnt&(GAP-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*GAP/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
+			REM set /a "GAP=32, _cnt+=1, t=-(_cnt&(GAP-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*GAP/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
+			set /a "GAP=32, t=-((_cnt+=1)&(GAP-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*GAP/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
 			if !t!==0 (
 				REM title FPS:!FPS!; dds:!$$!; _cnt:!_cnt!
 				<nul set /p "=%_ESC%[48;2;0;0;0m%_ESC%[1;1HFPS:!FPS! %_ESC%[48;2;%_RGB_FACE%m"
