@@ -23,17 +23,9 @@ REM set "$_K="#K = 0""                                    & rem never display
     set "$_N="#N = (!!(#-1) ^& !!(#-4) ^& !!(#-7))""
     set "$_O="#O = 1""
 
-
-
-
-
-
 @echo off & setlocal enabledelayedexpansion
 
-
 for /F %%a in ('echo prompt $E^| cmd') do set "_ESC=%%a"
-
-
 
 REM cd /d "%~dp0"
 REM call :getASCII219 & rem get ASCII 219 to var _ASCII219
@@ -59,17 +51,14 @@ REM color 0F & mode !_WID!,9999
 REM The work that needs "Path" is done, now you can clean it up.
 set "Path="
 
-
 set "_SIN=(t-t*t/1875*t/320000+t*t/1875*t/15625*t/16000*t/2560000-t*t/1875*t/15360*t/15625*t/15625*t/16000*t/44800000)"
 set "_COS=(10000-t*t/20000+t*t/1875*t/15625*t/819200-t*t/1875*t/15360*t/15625*t/15625*t/10240000+t*t/1875*t/15360*t/15625*t/15625*t/16000*t/15625*t/229376000)"
 
 set /a "_PI=31416, _2PI=2*_PI, _PI#2=_PI/2, _3PI#2=3*_PI/2, _3PI#2_1=_3PI#2-1, _DEG=_PI/180, _6DEG=6*_PI/180, _30DEG=30*_PI/180, _3.6DEG=36*_PI/(180*10)"
 
-
 set /a "_XCZOOM = 10000 * _WID/2, _XC=_WID/2+1, _YCZOOM = 10000 * _HEI/2, _YC=_HEI/2+1, _TH0=!random! %% 360 * %_DEG%, _TH0=0"
 REM set /a "_2XC=(%_XCZOOM%/10000+1)*2, _2YC=(%_YCZOOM%/10000+1)*2"
 set /a "_2XC=2*_XC, _2YC=2*_YC"
-
 
 REM <nul set /p "=%_ESC%[!p"
 
@@ -101,26 +90,13 @@ REM <nul set /p "=%_ESC%[!p"
 	set "_RGB_M=100;100;100"
 	set "_RGB_H=0;0;0"
 
-
-
-
 set "$erase_last_pin="
 set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
 
-
 set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
-
-
-
-
-
-
-
-
 
 (
 	for /f "delims==" %%a in ('set _') do set "%%a="
-
 
 	REM set /a "_PIN_LEN_S=%_R_FACE%-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+3,_PIN_LEN_D=_PIN_LEN_S/4"
 	REM set /a "_HUE_H=0xFF, _HUE_M=0xBB, _HUE_S=0x55, _HUE_D=0x88"
@@ -128,10 +104,6 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 	REM set "_RGB_S=255;0;0"
 	REM set "_RGB_M=100;100;100"
 	REM set "_RGB_H=0;0;0"
-
-
-
-
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
@@ -164,7 +136,6 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 	REM title B !time!
 	REM >nul pause
 
-
 	REM nail up scale
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 	for /L %%i in (0 1 3) do (
@@ -191,24 +162,7 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
-
-
-
-
-
-
 	set "__=0" & set "_= "
-
-
-
-
-
-
-
-
-
-
-
 
 	set /a "_cnt=0"
 	for /L %%i in () do (
@@ -238,14 +192,12 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 			)
 			set "$pin=%_ESC%[38;2;%_RGB_M%m!$pin!"
 
-
 			set /a "th=th_H, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 			for /l %%a in (0 1 %_PIN_LEN_H%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
 				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
 			set "$pin=%_ESC%[38;2;%_RGB_H%m!$pin!"
-
 
 			<nul set /p "=!$erase_last_pin!!$pin!"
 
@@ -255,9 +207,7 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 			set /a "_cnt+=1"
 			title !tm! double display B: _cnt=!_cnt!
 
-
 			if 1==1 (
-
 
 					(
 
@@ -268,7 +218,6 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 						REM 从上到下 逐次 生成 1~5 行图形
 						for %%L in ("A B C" "D _ F" "G H I" "J _ L" "M N O") do (
-
 
 							REM 每行从左到右依次计算并填充各个位置
 							for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
@@ -285,73 +234,44 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 									REM 为了在后续将这些 0 或者 1, 便于被替换成 空格 或者 画笔字符
 									for %%$ in (%%~L) do (
 
-
-
 										set /a !$_%%$!
 
-
 										set "S=!S!_!#%%$!"
-
-
-
 
 									)
 
 								) else if "!_0or1!%%d"=="1:" (
 
-
-
 									REM 第 2, 4 行的分隔位
 									set "S=!S!%_PEN%"
 
-
-
 								) else (
-
-
 
 									REM 恒空白位
 									set "S=!S! "
 
-
-
 								)
 							)
-
-
 
 							REM 先左移 37 到图形最左边, 再下移一行
 							set "S=!S!%_LEFT37DOWN1%"
 
-
-
-
 							set /a "_0or1^=1"
 						)
 
-
-
-
 						set "S=!S:_0= !" & set "S=!S:_1=%_PEN%!"
-
 
 					)
 
 				<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S!"
 
-
-
 			)
-
-
-
 
 	)
 )
 
 >nul pause
 exit
-
 
 :getASCII219
 call :getASCII219_
@@ -360,7 +280,6 @@ call :getASCII219_
 REM for %%N in (13 219 219_CR) do del %%N.chr
 exit /b
 REM end of :getBackSpaceAndASCII219
-
 
 REM ***
 :getASCII219_
