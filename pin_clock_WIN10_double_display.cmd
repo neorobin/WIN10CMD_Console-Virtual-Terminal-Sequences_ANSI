@@ -45,8 +45,14 @@ if defined _ASCII219 (
 set "_PEN_SCALE=*"
 
 set /a "_SIZE=50" & REM Set the size of the clock, recommended from 29 to 100
-set /a "_s=(_SIZE-15)>>31, _SIZE=(15&_s)+(_SIZE&~_s)" & REM size lower limit: 15
+
+set /a "_WID_FIFTEEN_SEGMENT_DISPLAY_LOW_LIMIT=37"
+
+set /a "_s=(_SIZE-15)>>31, _SIZE=(_WID_FIFTEEN_SEGMENT_DISPLAY_LOW_LIMIT&_s)+(_SIZE&~_s)" & REM size lower limit: 37
 set /a "_WID=_HEI=_SIZE|1,_R_FACE=_WID/2-1, _R_FACE_SQ=_R_FACE*_R_FACE, _R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2,_PIN_LEN_S=_R_FACE-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+_SIZE/15,_PIN_LEN_D=_PIN_LEN_S/2-0"
+
+set /a "_LEFT_FIFTEEN_SEGMENT_DISPLAY=(_WID-_WID_FIFTEEN_SEGMENT_DISPLAY_LOW_LIMIT)/2+1, _TOP_FIFTEEN_SEGMENT_DISPLAY=_WID/2+_R_FACE/4"
+
 color 0F & mode !_WID!,!_HEI!
 REM color 0F & mode !_WID!,9999
 
@@ -376,7 +382,7 @@ REM _1_1_1 _1_1_1   _1_1_1 _1_1_1   _1_1_1 _0_0_1   _1_1_1 _0_0_1
 
 					)
 
-				<nul set /p "=%_ESC%[1;1H!S!"
+				<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S!"
 
 				REM echo;!S!
 
