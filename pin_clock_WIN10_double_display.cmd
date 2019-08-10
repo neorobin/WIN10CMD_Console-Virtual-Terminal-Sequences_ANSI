@@ -95,6 +95,14 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 (
 	for /f "delims==" %%a in ('set _') do set "%%a="
 
+
+	set /a "_PIN_LEN_S=%_R_FACE%-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+_SIZE/15,_PIN_LEN_D=_PIN_LEN_S/2-0"
+	set "_RGB_D=0;255;0"
+	set "_RGB_S=255;0;0"
+	set "_RGB_M=100;100;100"
+	set "_RGB_H=0;0;0"
+
+
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
 	REM gen clock dial: Distance method, quick but not meticulous
@@ -201,11 +209,11 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 			set "S=" & set "_0or1=0"
 			REM 从上到下 逐次 生成 1~5 行图形
-			
+
 			REM "A B C" "D _ F" "G H I" "J _ L" "M N O"
 			REM I 和 O 的逻辑与 C 完全一致, 由 C 代替
 			REM N 的逻辑与 M 完全一致, 由 M 代替
-			
+
 			for %%L in ("A B C" "D _ F" "G H C" "J _ L" "M M C") do (
 				REM 每行从左到右依次计算并填充各个位置
 				for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
