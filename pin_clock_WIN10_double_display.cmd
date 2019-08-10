@@ -1,7 +1,4 @@
-@echo off
-setlocal DISABLEDELAYEDEXPANSION
-
->nul chcp 437
+@echo off & setlocal DISABLEDELAYEDEXPANSION & >nul chcp 437
 
 (for /f "delims==" %%a in ('set') do set "%%a=") & set "Path=%SystemRoot%\system32"
 
