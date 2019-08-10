@@ -216,9 +216,7 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 						for %%L in ("A B C" "D _ F" "G H I" "J _ L" "M N O") do (
 							REM 每行从左到右依次计算并填充各个位置
 							for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
-
 								if "%%d" geq "0" (
-
 									REM 数字位
 									REM 获取数字准备计算 是否 显示
 									set "#=!tm:~%%d,1!"
@@ -231,7 +229,6 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 										set /a !$_%%$!
 										set "S=!S!_!#%%$!"
 									)
-
 								) else if "!_0or1!%%d"=="1:" (
 									REM 第 2, 4 行的分隔位
 									set "S=!S!%_PEN%"
@@ -246,8 +243,10 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 							set /a "_0or1^=1"
 						)
 
-						set "S=!S:_0= !" & set "S=!S:_1=%_PEN%!"
-						<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S!"
+						REM set "S=!S:_0= !" & set "S=!S:_1=%_PEN%!"
+						set "S=!S:_0= !"
+						REM <nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S!"
+						<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S:_1=%_PEN%!"
 
 	)
 )
