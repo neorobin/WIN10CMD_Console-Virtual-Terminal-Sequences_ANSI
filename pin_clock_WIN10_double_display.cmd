@@ -207,27 +207,27 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 			set /a "_cnt+=1"
 			title !tm! double display B: _cnt=!_cnt!
 
-						REM $__=0 ÓÃÓÚ ÔÚ E ºÍ K Î» ²»±¨´í
-						REM "#_= " ÓÃÓÚ ÔÚ E ºÍ K Î» ÈÃÔËËãÊ½ "S=!S!#!#%%$!" ÓÐÖµ¿ÉÈ¡
+						REM $__=0 ç”¨äºŽ åœ¨ E å’Œ K ä½ ä¸æŠ¥é”™
+						REM "#_= " ç”¨äºŽ åœ¨ E å’Œ K ä½ è®©è¿ç®—å¼ "S=!S!#!#%%$!" æœ‰å€¼å¯å–
 						set "$__=0" & set "#_=0"
 						set "S=" & set "_0or1=0"
 
-						REM ´ÓÉÏµ½ÏÂ Öð´Î Éú³É 1~5 ÐÐÍ¼ÐÎ
+						REM ä»Žä¸Šåˆ°ä¸‹ é€æ¬¡ ç”Ÿæˆ 1~5 è¡Œå›¾å½¢
 						for %%L in ("A B C" "D _ F" "G H I" "J _ L" "M N O") do (
 
-							REM Ã¿ÐÐ´Ó×óµ½ÓÒÒÀ´Î¼ÆËã²¢Ìî³ä¸÷¸öÎ»ÖÃ
+							REM æ¯è¡Œä»Žå·¦åˆ°å³ä¾æ¬¡è®¡ç®—å¹¶å¡«å……å„ä¸ªä½ç½®
 							for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
 
 								if "%%d" geq "0" (
 
-									REM Êý×ÖÎ»
-									REM »ñÈ¡Êý×Ö×¼±¸¼ÆËã ÊÇ·ñ ÏÔÊ¾
+									REM æ•°å­—ä½
+									REM èŽ·å–æ•°å­—å‡†å¤‡è®¡ç®— æ˜¯å¦ æ˜¾ç¤º
 									set "#=!tm:~%%d,1!"
 
-									REM Ò»¸öÊý×ÖÎ» µã 3 ¸öÏñËØ¿í, ÒªÖð¸öÏñËØ¼ÆËã ÊÇ·ñ ÏÔÊ¾
-									REM "S=!S!#!#%%$!" :  !#%%$! µÄ½á¹ûÊÇ¼ÓÈëÒ»¸ö 0 »òÕß 1,
-									REM ÔÚ 0 »òÕß 1 Ç°¼ÓÒ»¸ö _ ºÅ, Õâ¸ö·ûºÅ²»ÄÜÓÃ×÷»­±Ê×Ö·û, ·ñÔòÌæ»»¿ÉÄÜ³ö´í
-									REM ÎªÁËÔÚºóÐø½«ÕâÐ© 0 »òÕß 1, ±ãÓÚ±»Ìæ»»³É ¿Õ¸ñ »òÕß »­±Ê×Ö·û
+									REM ä¸€ä¸ªæ•°å­—ä½ ç‚¹ 3 ä¸ªåƒç´ å®½, è¦é€ä¸ªåƒç´ è®¡ç®— æ˜¯å¦ æ˜¾ç¤º
+									REM "S=!S!#!#%%$!" :  !#%%$! çš„ç»“æžœæ˜¯åŠ å…¥ä¸€ä¸ª 0 æˆ–è€… 1,
+									REM åœ¨ 0 æˆ–è€… 1 å‰åŠ ä¸€ä¸ª _ å·, è¿™ä¸ªç¬¦å·ä¸èƒ½ç”¨ä½œç”»ç¬”å­—ç¬¦, å¦åˆ™æ›¿æ¢å¯èƒ½å‡ºé”™
+									REM ä¸ºäº†åœ¨åŽç»­å°†è¿™äº› 0 æˆ–è€… 1, ä¾¿äºŽè¢«æ›¿æ¢æˆ ç©ºæ ¼ æˆ–è€… ç”»ç¬”å­—ç¬¦
 									for %%$ in (%%~L) do (
 
 										set /a !$_%%$!
@@ -238,18 +238,18 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 								) else if "!_0or1!%%d"=="1:" (
 
-									REM µÚ 2, 4 ÐÐµÄ·Ö¸ôÎ»
+									REM ç¬¬ 2, 4 è¡Œçš„åˆ†éš”ä½
 									set "S=!S!%_PEN%"
 
 								) else (
 
-									REM ºã¿Õ°×Î»
+									REM æ’ç©ºç™½ä½
 									set "S=!S! "
 
 								)
 							)
 
-							REM ÏÈ×óÒÆ 37 µ½Í¼ÐÎ×î×ó±ß, ÔÙÏÂÒÆÒ»ÐÐ
+							REM å…ˆå·¦ç§» 37 åˆ°å›¾å½¢æœ€å·¦è¾¹, å†ä¸‹ç§»ä¸€è¡Œ
 							set "S=!S!%_LEFT37DOWN1%"
 
 							set /a "_0or1^=1"
