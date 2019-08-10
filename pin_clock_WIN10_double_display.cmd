@@ -89,12 +89,12 @@ REM <nul set /p "=%_ESC%[!p"
 ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-	set "_RGB_SCALE=0;0;255"
-	set "_RGB_FACE=255;255;255"
-	set "_RGB_D=0;255;0"
-	set "_RGB_S=255;0;0"
-	set "_RGB_M=100;100;100"
-	set "_RGB_H=0;0;0"
+set "_RGB_SCALE=0;0;255"
+set "_RGB_FACE=255;255;255"
+set "_RGB_D=0;255;0"
+set "_RGB_S=255;0;0"
+set "_RGB_M=100;100;100"
+set "_RGB_H=0;0;0"
 
 set "$erase_last_pin="
 set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
@@ -123,14 +123,14 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 	REM gen clock dial: rotary scanning polishing edge
 	for /L %%i in (0 1 %_DENSITY%) do (
-			set /a "th+=-%_SPEED%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1),  #x=(%_XCZOOM%+%_R_FACE%*#C)/10000+1, #y=(%_YCZOOM%+%_R_FACE%*#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
+		set /a "th+=-%_SPEED%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1),  #x=(%_XCZOOM%+%_R_FACE%*#C)/10000+1, #y=(%_YCZOOM%+%_R_FACE%*#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
 
-			set "$pin=%_ESC%[!#x_!;!#y!H%_PEN%%_ESC%[!#x!;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
+		set "$pin=%_ESC%[!#x_!;!#y!H%_PEN%%_ESC%[!#x!;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 
-			set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
-			<nul set /p "=!$pin!"
-			set "$pin="
-			title gen clock dial: rotary scanning polishing edge %%i / %_DENSITY%
+		set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
+		<nul set /p "=!$pin!"
+		set "$pin="
+		title gen clock dial: rotary scanning polishing edge %%i / %_DENSITY%
 	)
 
 	REM nail up scale
@@ -219,7 +219,6 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 				REM 每行从左到右依次计算并填充各个位置
 				for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
 					if "%%d" geq "0" (
-						REM 数字位
 						REM 获取数字准备计算 是否 显示
 						set "#=!tm:~%%d,1!"
 
