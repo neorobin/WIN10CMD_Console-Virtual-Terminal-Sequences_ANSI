@@ -145,6 +145,9 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 	set /a "_cnt=0"
 	for /L %%i in () do (
 
+		set /a "t=!time:~-1!" & set /a "t ^= z, z ^= t"
+		if !t! neq 0 (
+
 			set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, DD=1!tm:~-2!-100"
 
 			set /a "th_S=%_PI% - (SS * 100 + DD) * %_6DEG% / 100, th_M=%_PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG%"
@@ -185,8 +188,8 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 			set "$pin="
 
 			set /a "_cnt+=1"
-			title !tm! B: _cnt=!_cnt!
-
+			title !tm! A: _cnt=!_cnt!
+		)
 	)
 )
 
