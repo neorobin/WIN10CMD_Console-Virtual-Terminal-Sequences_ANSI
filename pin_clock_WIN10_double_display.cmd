@@ -5,23 +5,30 @@ setlocal DISABLEDELAYEDEXPANSION
 
 (for /f "delims==" %%a in ('set') do set "%%a=") & set "Path=%SystemRoot%\system32"
 
-REM for Fifteen-segment display logic
+:: for Fifteen-segment display logic
+:: The following pattern code is not necessary, just to illustrate the logical principle of the show
+::
+::  ###   # ### ### # # ### ### ### ### ### ABC
+::  # #   #   #   # # # #   #     # # # # # DEF
+::  # #   # ### ### ### ### ###   # ### ### GHI
+::  # #   # #     #   #   # # #   # # #   # JKL
+::  ###   # ### ###   # ### ###   # ### ### MNO
 
-    set "$_A="#A = !!(#-1)""
-    set "$_B="#B = (!!(#-1) ^& !!(#-4))""
-    set "$_C="#C = 1""
-    set "$_D="#D = (!(#^&3) ^| !!(#^&~3)) ^& !!(#-7)""
-REM set "$_E="#E = 0""                                    & rem never display
-    set "$_F="#F = !!(#-5)^&!!(#-6)""
-    set "$_G="#G = !!(#-1)^&!!(#-7)""
-    set "$_H="#H = !(!# ^| !(#-1) ^| !(#-7))""
-    set "$_I="#I = 1""
-    set "$_J="#J = ~# ^& 1 ^& !!(#-4)""
-REM set "$_K="#K = 0""                                    & rem never display
-    set "$_L="#L = !!(#-2)""
-    set "$_M="#M = (!!(#-1) ^& !!(#-4) ^& !!(#-7))""
-    set "$_N="#N = (!!(#-1) ^& !!(#-4) ^& !!(#-7))""
-    set "$_O="#O = 1""
+	set "$_A="#A=!!(#-1)""
+	set "$_B="#B=(!!(#-1)^&!!(#-4))""
+	set "$_C="#C=1""
+	set "$_D="#D=(!(#^&3)^|!!(#^&~3))^&!!(#-7)""
+REM set "$_E="#E=0""                                    & rem never display
+	set "$_F="#F=!!(#-5)^&!!(#-6)""
+	set "$_G="#G=!!(#-1)^&!!(#-7)""
+	set "$_H="#H=!(!#^|!(#-1)^|!(#-7))""
+REM set "$_I="#I=1""									& rem Replaced by C
+	set "$_J="#J=~#^&1^&!!(#-4)""
+REM set "$_K="#K=0""                                    & rem never display
+	set "$_L="#L=!!(#-2)""
+	set "$_M="#M=(!!(#-1)^&!!(#-4)^&!!(#-7))""
+REM set "$_N="#N=(!!(#-1)^&!!(#-4)^&!!(#-7))""          & rem Replaced by M
+REM set "$_O="#O=1""									& rem Replaced by C
 
 @echo off & setlocal enabledelayedexpansion
 
@@ -133,8 +140,6 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 			set "$pin="
 			title gen clock dial: rotary scanning polishing edge %%i / %_DENSITY%
 	)
-	REM title B !time!
-	REM >nul pause
 
 	REM nail up scale
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
@@ -213,7 +218,12 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 			set "S=" & set "_0or1=0"
 			REM 从上到下 逐次 生成 1~5 行图形
-			for %%L in ("A B C" "D _ F" "G H I" "J _ L" "M N O") do (
+			
+			REM "A B C" "D _ F" "G H I" "J _ L" "M N O"
+			REM I 和 O 的逻辑与 C 完全一致, 由 C 代替
+			REM N 的逻辑与 M 完全一致, 由 M 代替
+			
+			for %%L in ("A B C" "D _ F" "G H C" "J _ L" "M M C") do (
 				REM 每行从左到右依次计算并填充各个位置
 				for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
 					if "%%d" geq "0" (
