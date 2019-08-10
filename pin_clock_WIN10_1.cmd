@@ -142,7 +142,7 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 
 
-
+	set /a "_cnt=0"
 	for /L %%i in () do (
 
 		set /a "t=!time:~-1!" & set /a "t ^= z, z ^= t"
@@ -187,7 +187,8 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 			set "$erase_last_pin=!$pin:%_PEN%= !"
 			set "$pin="
 
-			title !tm!
+			set /a "_cnt+=1"
+			title !tm! A: _cnt=!_cnt!
 		)
 	)
 )
