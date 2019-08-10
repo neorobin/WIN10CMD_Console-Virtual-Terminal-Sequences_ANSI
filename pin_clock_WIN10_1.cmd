@@ -80,20 +80,20 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
-		REM gen clock dial: Distance method, quick but not meticulous
-		title gen clock dial: Distance method, quick but not meticulous
-		for /L %%y in (%_YC% -1 1) do (
-			for /L %%x in (1 1 %_XC%) do (
-				set /a "_dx=%%x-%_XC%, _dy=%%y-%_YC%, t=_dx*_dx+_dy*_dy-%_R_FACE_SQ%-1"
-				if !t! lss 0 (
-					set /a "#x_=%_2XC%-%%x, #y_=%_2YC%-%%y"
-					set "$pin=%_ESC%[!#x_!;%%yH%_PEN%%_ESC%[%%x;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[%%x;%%yH%_PEN%!$pin!"
-				)
+	REM gen clock dial: Distance method, quick but not meticulous
+	title gen clock dial: Distance method, quick but not meticulous
+	for /L %%y in (%_YC% -1 1) do (
+		for /L %%x in (1 1 %_XC%) do (
+			set /a "_dx=%%x-%_XC%, _dy=%%y-%_YC%, t=_dx*_dx+_dy*_dy-%_R_FACE_SQ%-1"
+			if !t! lss 0 (
+				set /a "#x_=%_2XC%-%%x, #y_=%_2YC%-%%y"
+				set "$pin=%_ESC%[!#x_!;%%yH%_PEN%%_ESC%[%%x;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[%%x;%%yH%_PEN%!$pin!"
 			)
-			set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
-			<nul set /p "=!$pin!"
-			set "$pin="
 		)
+		set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
+		<nul set /p "=!$pin!"
+		set "$pin="
+	)
 
 	REM gen clock dial: rotary scanning polishing edge
 	for /L %%i in (0 1 %_DENSITY%) do (
