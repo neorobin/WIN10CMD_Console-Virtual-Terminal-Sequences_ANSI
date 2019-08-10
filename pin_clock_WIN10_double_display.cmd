@@ -211,12 +211,9 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 			set /a "_cnt+=1"
 			title !tm! double display B: _cnt=!_cnt!
 
-
 						set "S=" & set "_0or1=0"
-
 						REM 从上到下 逐次 生成 1~5 行图形
 						for %%L in ("A B C" "D _ F" "G H I" "J _ L" "M N O") do (
-
 							REM 每行从左到右依次计算并填充各个位置
 							for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
 
@@ -231,34 +228,25 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 									REM 在 0 或者 1 前加一个 _ 号, 这个符号不能用作画笔字符, 否则替换可能出错
 									REM 为了在后续将这些 0 或者 1, 便于被替换成 空格 或者 画笔字符
 									for %%$ in (%%~L) do (
-
 										set /a !$_%%$!
-
 										set "S=!S!_!#%%$!"
-
 									)
 
 								) else if "!_0or1!%%d"=="1:" (
-
 									REM 第 2, 4 行的分隔位
 									set "S=!S!%_PEN%"
-
 								) else (
-
 									REM 恒空白位
 									set "S=!S! "
-
 								)
 							)
 
 							REM 先左移 37 到图形最左边, 再下移一行
 							set "S=!S!%_LEFT37DOWN1%"
-
 							set /a "_0or1^=1"
 						)
 
 						set "S=!S:_0= !" & set "S=!S:_1=%_PEN%!"
-
 						<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S!"
 
 	)
