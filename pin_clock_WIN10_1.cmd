@@ -80,7 +80,6 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
-	if 1==1 (
 		REM gen clock dial: Distance method, quick but not meticulous
 		title gen clock dial: Distance method, quick but not meticulous
 		for /L %%y in (%_YC% -1 1) do (
@@ -95,8 +94,6 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 			<nul set /p "=!$pin!"
 			set "$pin="
 		)
-	)
-
 
 	REM gen clock dial: rotary scanning polishing edge
 	for /L %%i in (0 1 %_DENSITY%) do (
