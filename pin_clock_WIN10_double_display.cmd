@@ -34,7 +34,7 @@ for /F %%a in ('echo prompt $E^| cmd') do set "_ESC=%%a"
 set "_PEN=#"
 set "_PEN_SCALE=*"
 
-set /a "_SIZE=50" & REM Set the size of the clock, recommended from 29 to 100
+set /a "_SIZE=120" & REM Set the size of the clock, recommended from 37 to 100
 
 set /a "_WID_FIFTEEN_SEGMENT_DISPLAY_LOW_LIMIT=37"
 
@@ -90,7 +90,11 @@ set "_RGB_H=0;0;0"
 set "$erase_last_pin="
 set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
 
+set /a "_DDS_OF_A_DAY=24*60*60*100"
+
 set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
+
+title DOUBLE DISPLAY CLOCK
 
 (
 	for /f "delims==" %%a in ('set _') do set "%%a="
@@ -106,7 +110,7 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
 	REM gen clock dial: Distance method, quick but not meticulous
-	title gen clock dial: Distance method, quick but not meticulous
+	REM title gen clock dial: Distance method, quick but not meticulous
 	for /L %%y in (%_YC% -1 1) do (
 		for /L %%x in (1 1 %_XC%) do (
 			set /a "_dx=%%x-%_XC%, _dy=%%y-%_YC%, t=_dx*_dx+_dy*_dy-%_R_FACE_SQ%-1"
@@ -129,7 +133,7 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 		set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
 		<nul set /p "=!$pin!"
 		set "$pin="
-		title gen clock dial: rotary scanning polishing edge %%i / %_DENSITY%
+		REM title gen clock dial: rotary scanning polishing edge %%i / %_DENSITY%
 	)
 
 	REM nail up scale
@@ -153,8 +157,9 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 			set "$pin=%_ESC%[38;2;%_RGB_SCALE%m!$pin!"
 			<nul set /p "=!$erase_last_pin!!$pin!"
 			set "$pin="
-			title nail up scale %%i / 2
+			REM title nail up scale %%i / 2
 	)
+	REM title 
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
@@ -164,7 +169,7 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 	set "$__=0" & set "#_=0"
 
 
-	set /a "_cnt=0"
+	set /a "_cnt=0, $v=0"
 	for /L %%i in () do (
 
 		set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, DD=1!tm:~-2!-100"
@@ -184,10 +189,6 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 		<nul set /p "=!$erase_last_pin!!$pin!"
 		set "$erase_last_pin=!$pin:%_PEN%= !"
 		set "$pin="
-
-		set /a "_cnt+=1"
-		title !tm! double display B: _cnt=!_cnt!
-
 
 		REM Fifteen segment display
 
@@ -228,7 +229,13 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 		)
 		set "S=!S:_0= !"
 		<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S:_1=%_PEN%!"
-
+		
+		REM 每 GAP 帧计算一次 FPS, ! GAP 必须是不小于 2 的 2的幂
+		set /a "GAP=128, t=-((_cnt+=1)&(GAP-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*GAP/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
+		if !t!==0 (
+			<nul set /p "=%_ESC%[48;2;0;0;0m%_ESC%[1;1HFPS:!FPS! %_ESC%[48;2;%_RGB_FACE%m"
+		)
+		REM title !tm! double display B: _cnt=!_cnt!
 	)
 )
 
