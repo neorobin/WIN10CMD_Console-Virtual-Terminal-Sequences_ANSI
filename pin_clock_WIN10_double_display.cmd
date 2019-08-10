@@ -223,7 +223,7 @@ REM set "_K="K = 0""                                    & rem never display
 			set "$pin="
 
 			set /a "_cnt+=1"
-			title !tm! B: _cnt=!_cnt!
+			title !tm! double display B: _cnt=!_cnt!
 
 	)
 )
