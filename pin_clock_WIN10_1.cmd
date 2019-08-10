@@ -13,7 +13,7 @@ if defined _ASCII219 (
 )
 set "_PEN_SCALE=*"
 
-set /a "_SIZE=15" & REM Set the size of the clock, recommended from 29 to 100
+set /a "_SIZE=100" & REM Set the size of the clock, recommended from 29 to 100
 set /a "_s=(_SIZE-15)>>31, _SIZE=(15&_s)+(_SIZE&~_s)" & REM size lower limit: 15
 set /a "_WID=_HEI=_SIZE|1,_R_FACE=_WID/2-1, _R_FACE_SQ=_R_FACE*_R_FACE, _R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2,_PIN_LEN_S=_R_FACE-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+_SIZE/15,_PIN_LEN_D=_PIN_LEN_S/2-0"
 color 0F & mode !_WID!,!_HEI!
@@ -147,63 +147,52 @@ set /a "_DDS_OF_A_DAY=24*60*60*100"
 	set /a "_cnt=0, $v=0"
 	for /L %%i in () do (
 
-			set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, DD=1!tm:~-2!-100"
+		set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, DD=1!tm:~-2!-100"
 
-			set /a "th_S=%_PI% - (SS * 100 + DD) * %_6DEG% / 100, th_M=%_PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG%"
+		set /a "th_S=%_PI% - (SS * 100 + DD) * %_6DEG% / 100, th_M=%_PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG%"
 
-			set /a "th=th_D, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-			for /l %%a in (0 1 %_PIN_LEN_D%) do (
-				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
-			)
-			set "$pin=%_ESC%[38;2;!_RGB_D!m!$pin!"
+		set /a "th=th_D, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
+		for /l %%a in (0 1 %_PIN_LEN_D%) do (
+			set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
+			set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
+		)
+		set "$pin=%_ESC%[38;2;!_RGB_D!m!$pin!"
 
-			set /a "th=th_S, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-			for /l %%a in (0 1 %_PIN_LEN_S%) do (
-				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
-			)
-			set "$pin=%_ESC%[38;2;!_RGB_S!m!$pin!"
+		set /a "th=th_S, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
+		for /l %%a in (0 1 %_PIN_LEN_S%) do (
+			set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
+			set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
+		)
+		set "$pin=%_ESC%[38;2;!_RGB_S!m!$pin!"
 
-			set /a "th=th_M, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-			for /l %%a in (0 1 %_PIN_LEN_M%) do (
-				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
-			)
-			set "$pin=%_ESC%[38;2;!_RGB_M!m!$pin!"
-
-
-			set /a "th=th_H, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-			for /l %%a in (0 1 %_PIN_LEN_H%) do (
-				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
-			)
-			set "$pin=%_ESC%[38;2;!_RGB_H!m!$pin!"
+		set /a "th=th_M, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
+		for /l %%a in (0 1 %_PIN_LEN_M%) do (
+			set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
+			set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
+		)
+		set "$pin=%_ESC%[38;2;!_RGB_M!m!$pin!"
 
 
-			<nul set /p "=!$erase_last_pin!!$pin!"
+		set /a "th=th_H, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
+		for /l %%a in (0 1 %_PIN_LEN_H%) do (
+			set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
+			set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
+		)
+		set "$pin=%_ESC%[38;2;!_RGB_H!m!$pin!"
 
-			set "$erase_last_pin=!$pin:%_PEN%= !"
-			set "$pin="
 
-			title !tm!
-			REM 每 GAP 帧计算一次 FPS, ! GAP 必须是不小于 2 的 2的幂
-			REM set /a "GAP=32, _cnt+=1, t=-(_cnt&(GAP-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*GAP/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
-			set /a "GAP=2048, t=-((_cnt+=1)&(GAP-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*GAP/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
-			if !t!==0 (
-				REM title FPS:!FPS!; dds:!$$!; _cnt:!_cnt!
-				<nul set /p "=%_ESC%[48;2;0;0;0m%_ESC%[1;1HFPS:!FPS! %_ESC%[48;2;%_RGB_FACE%m"
-			)
-			REM if !_cnt!==48 (
-				REM set "$erase_last_pin="
-				REM set
-				REM echo t=!t!
-				REM echo $$=!$$!
-				REM echo FPS=!FPS!
-				REM echo GAP=!GAP!
-				REM echo $u=!$u!
-				REM pause
-			REM )
+		<nul set /p "=!$erase_last_pin!!$pin!"
+
+		set "$erase_last_pin=!$pin:%_PEN%= !"
+		set "$pin="
+
+		title !tm!
+		REM 每 GAP 帧计算一次 FPS, ! GAP 必须是不小于 2 的 2的幂
+		REM set /a "GAP=32, _cnt+=1, t=-(_cnt&(GAP-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*GAP/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
+		set /a "GAP=512, t=-((_cnt+=1)&(GAP-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*GAP/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
+		if !t!==0 (
+			<nul set /p "=%_ESC%[48;2;0;0;0m%_ESC%[1;1HFPS:!FPS! %_ESC%[48;2;%_RGB_FACE%m"
+		)
 
 	)
 )
