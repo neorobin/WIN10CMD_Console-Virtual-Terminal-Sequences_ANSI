@@ -17,7 +17,8 @@ set /a "_SIZE=50" & REM Set the size of the clock, recommended from 29 to 100
 set /a "_s=(_SIZE-15)>>31, _SIZE=(15&_s)+(_SIZE&~_s)" & REM size lower limit: 15
 set /a "_WID=_HEI=_SIZE|1,_R_FACE=_WID/2-1, _R_FACE_SQ=_R_FACE*_R_FACE, _R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2,_PIN_LEN_S=_R_FACE-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+_SIZE/15,_PIN_LEN_D=_PIN_LEN_S/2-0"
 color 0F & mode !_WID!,!_HEI!
-REM color 0F & mode !_WID!,200
+
+REM The work that needs "Path" is done, now you can clean it up.
 set "Path="
 
 
