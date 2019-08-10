@@ -178,6 +178,22 @@ REM set "_K="K = 0""                                    & rem never display
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
 
+	
+	
+	
+		
+		
+	set "__=0" & set "_= "
+
+
+
+
+		
+		
+		
+	
+	
+	
 
 
 	set /a "_cnt=0"
@@ -224,6 +240,40 @@ REM set "_K="K = 0""                                    & rem never display
 
 			set /a "_cnt+=1"
 			title !tm! double display B: _cnt=!_cnt!
+			
+			
+			
+			if 0==1 (
+				set /a "t=!time:~-1!" & set /a "t ^= z, z ^= t"
+				if !t! neq 0 (
+					set "S=" & set "zeroOrOne=0"
+					for %%L in ("A B C" "D _ F" "G H I" "J _ L" "M N O") do (
+						for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
+							if "%%d" geq "0" (
+								set "tm=!time: =0!" & set "x=!tm:~%%d,1!"
+								for %%_ in (%%~L) do set /a !_%%_! & set "S=!S!!%%_!"
+							) else if "!zeroOrOne!%%d"=="1:" (set "S=!S!%GAP_DOT%") else set "S=!S! "
+						)
+						set /a "zeroOrOne^=1"
+					)
+					set "S=!S:1=%DOT%!" & set "S=!S:0= !"
+
+					(2>nul echo;%TAB%!BSs!) & <nul set /p "=%BS%"
+
+
+					<nul set /p "=%BS%!S!"
+				)
+			)
+				
+			
+			
+			
+			
+			
+			
+			
+			
+			
 
 	)
 )
