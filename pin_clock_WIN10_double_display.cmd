@@ -53,7 +53,6 @@ set /a "_WID=_HEI=_SIZE|1,_R_FACE=_WID/2-1, _R_FACE_SQ=_R_FACE*_R_FACE, _R_FACE_
 set /a "_LEFT_FIFTEEN_SEGMENT_DISPLAY=(_WID-_WID_FIFTEEN_SEGMENT_DISPLAY_LOW_LIMIT)/2+1, _TOP_FIFTEEN_SEGMENT_DISPLAY=_WID/2+_R_FACE/4"
 
 color 0F & mode !_WID!,!_HEI!
-REM color 0F & mode !_WID!,9999
 
 REM The work that needs "Path" is done, now you can clean it up.
 set "Path="
@@ -104,13 +103,6 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 (
 	for /f "delims==" %%a in ('set _') do set "%%a="
-
-	REM set /a "_PIN_LEN_S=%_R_FACE%-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+3,_PIN_LEN_D=_PIN_LEN_S/4"
-	REM set /a "_HUE_H=0xFF, _HUE_M=0xBB, _HUE_S=0x55, _HUE_D=0x88"
-	REM set "_RGB_D=0;255;0"
-	REM set "_RGB_S=255;0;0"
-	REM set "_RGB_M=100;100;100"
-	REM set "_RGB_H=0;0;0"
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
