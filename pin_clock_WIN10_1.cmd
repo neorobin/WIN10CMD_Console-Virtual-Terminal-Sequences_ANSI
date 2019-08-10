@@ -153,7 +153,8 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 			REM (SS * 100 + DD) * %_6DEG% / 100
 
 			REM set /a "th_S=%_PI% - SS*%_6DEG% + %_2PI%, th_M=%_PI% + %_2PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% + %_2PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG% + %_2PI%"
-			set /a "th_S=%_PI% - (SS * 100 + DD) * %_6DEG% / 100 + %_2PI%, th_M=%_PI% + %_2PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% + %_2PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG% + %_2PI%"
+			REM set /a "th_S=%_PI% - (SS * 100 + DD) * %_6DEG% / 100 + %_2PI%, th_M=%_PI% + %_2PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% + %_2PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG% + %_2PI%"
+			set /a "th_S=%_PI% - (SS * 100 + DD) * %_6DEG% / 100, th_M=%_PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG%"
 
 			set /a "th=th_H, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 
