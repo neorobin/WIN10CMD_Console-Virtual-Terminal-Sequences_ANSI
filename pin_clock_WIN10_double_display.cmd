@@ -1,9 +1,40 @@
-@echo off & setlocal enabledelayedexpansion
+@echo off
+setlocal DISABLEDELAYEDEXPANSION
+
 >nul chcp 437
 
 (for /f "delims==" %%a in ('set') do set "%%a=") & set "Path=%SystemRoot%\system32"
 
+REM for Fifteen-segment display logic
+
+    set "$_A="#A = !!(#-1)""
+    set "$_B="#B = (!!(#-1) ^& !!(#-4))""
+    set "$_C="#C = 1""
+    set "$_D="#D = (!(#^&3) ^| !!(#^&~3)) ^& !!(#-7)""
+REM set "$_E="#E = 0""                                    & rem never display
+    set "$_F="#F = !!(#-5)^&!!(#-6)""
+    set "$_G="#G = !!(#-1)^&!!(#-7)""
+    set "$_H="#H = !(!# ^| !(#-1) ^| !(#-7))""
+    set "$_I="#I = 1""
+    set "$_J="#J = ~# ^& 1 ^& !!(#-4)""
+REM set "$_K="#K = 0""                                    & rem never display
+    set "$_L="#L = !!(#-2)""
+    set "$_M="#M = (!!(#-1) ^& !!(#-4) ^& !!(#-7))""
+    set "$_N="#N = (!!(#-1) ^& !!(#-4) ^& !!(#-7))""
+    set "$_O="#O = 1""
+
+
+
+
+
+
+@echo off & setlocal enabledelayedexpansion
+
+
 for /F %%a in ('echo prompt $E^| cmd') do set "_ESC=%%a"
+
+
+
 REM cd /d "%~dp0"
 REM call :getASCII219 & rem get ASCII 219 to var _ASCII219
 if defined _ASCII219 (
@@ -17,6 +48,7 @@ set /a "_SIZE=50" & REM Set the size of the clock, recommended from 29 to 100
 set /a "_s=(_SIZE-15)>>31, _SIZE=(15&_s)+(_SIZE&~_s)" & REM size lower limit: 15
 set /a "_WID=_HEI=_SIZE|1,_R_FACE=_WID/2-1, _R_FACE_SQ=_R_FACE*_R_FACE, _R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2,_PIN_LEN_S=_R_FACE-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+_SIZE/15,_PIN_LEN_D=_PIN_LEN_S/2-0"
 color 0F & mode !_WID!,!_HEI!
+REM color 0F & mode !_WID!,9999
 
 REM The work that needs "Path" is done, now you can clean it up.
 set "Path="
@@ -64,37 +96,13 @@ REM <nul set /p "=%_ESC%[!p"
 	set "_RGB_H=0;0;0"
 
 
+
+
 set "$erase_last_pin="
 set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
 
 
-
-
-REM for Fifteen-segment display logic
-
-    set "_A="A = !!(x-1)""
-    set "_B="B = (!!(x-1) ^& !!(x-4))""
-    set "_C="C = 1""
-    set "_D="D = (!(x^&3) ^| !!(x^&~3)) ^& !!(x-7)""
-REM set "_E="E = 0""                                    & rem never display
-    set "_F="F = !!(x-5)^&!!(x-6)""
-    set "_G="G = !!(x-1)^&!!(x-7)""
-    set "_H="H = !(!x ^| !(x-1) ^| !(x-7))""
-    set "_I="I = 1""
-    set "_J="J = ~x ^& 1 ^& !!(x-4)""
-REM set "_K="K = 0""                                    & rem never display
-    set "_L="L = !!(x-2)""
-    set "_M="M = (!!(x-1) ^& !!(x-4) ^& !!(x-7))""
-    set "_N="N = (!!(x-1) ^& !!(x-4) ^& !!(x-7))""
-    set "_O="O = 1""
-
-
-
-
-
-
-
-
+set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 
 
@@ -108,12 +116,12 @@ REM set "_K="K = 0""                                    & rem never display
 	for /f "delims==" %%a in ('set _') do set "%%a="
 
 
-	set /a "_PIN_LEN_S=%_R_FACE%-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+3,_PIN_LEN_D=_PIN_LEN_S/4"
-	set /a "_HUE_H=0xFF, _HUE_M=0xBB, _HUE_S=0x55, _HUE_D=0x88"
-	set "_RGB_D=0;255;0"
-	set "_RGB_S=255;0;0"
-	set "_RGB_M=100;100;100"
-	set "_RGB_H=0;0;0"
+	REM set /a "_PIN_LEN_S=%_R_FACE%-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+3,_PIN_LEN_D=_PIN_LEN_S/4"
+	REM set /a "_HUE_H=0xFF, _HUE_M=0xBB, _HUE_S=0x55, _HUE_D=0x88"
+	REM set "_RGB_D=0;255;0"
+	REM set "_RGB_S=255;0;0"
+	REM set "_RGB_M=100;100;100"
+	REM set "_RGB_H=0;0;0"
 
 
 
@@ -178,22 +186,22 @@ REM set "_K="K = 0""                                    & rem never display
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
 
-	
-	
-	
-		
-		
+
+
+
+
+
 	set "__=0" & set "_= "
 
 
 
 
-		
-		
-		
-	
-	
-	
+
+
+
+
+
+
 
 
 	set /a "_cnt=0"
@@ -208,21 +216,21 @@ REM set "_K="K = 0""                                    & rem never display
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
 				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
-			set "$pin=%_ESC%[38;2;!_RGB_D!m!$pin!"
+			set "$pin=%_ESC%[38;2;%_RGB_D%m!$pin!"
 
 			set /a "th=th_S, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 			for /l %%a in (0 1 %_PIN_LEN_S%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
 				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
-			set "$pin=%_ESC%[38;2;!_RGB_S!m!$pin!"
+			set "$pin=%_ESC%[38;2;%_RGB_S%m!$pin!"
 
 			set /a "th=th_M, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 			for /l %%a in (0 1 %_PIN_LEN_M%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
 				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
-			set "$pin=%_ESC%[38;2;!_RGB_M!m!$pin!"
+			set "$pin=%_ESC%[38;2;%_RGB_M%m!$pin!"
 
 
 			set /a "th=th_H, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
@@ -230,7 +238,7 @@ REM set "_K="K = 0""                                    & rem never display
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
 				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
-			set "$pin=%_ESC%[38;2;!_RGB_H!m!$pin!"
+			set "$pin=%_ESC%[38;2;%_RGB_H%m!$pin!"
 
 
 			<nul set /p "=!$erase_last_pin!!$pin!"
@@ -240,64 +248,144 @@ REM set "_K="K = 0""                                    & rem never display
 
 			set /a "_cnt+=1"
 			title !tm! double display B: _cnt=!_cnt!
-			
-			
-			
-			if 0==1 (
-
-					set "S=" & set "_0or1=0"
-					for %%L in ("A B C" "D _ F" "G H I" "J _ L" "M N O") do (
-						for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
-							if "%%d" geq "0" (
-								set "x=!tm:~%%d,1!"
-								REM for %%_ in (%%~L) do set /a !_%%_! & set "S=!S!!%%_!"
-								
-								
 
 
 
-								set /a %_A%
-								set /a %_B%
-								set /a %_C%
-								set /a %_D%
-							REM set /a %_E%
-								set /a %_F%
-								set /a %_G%
-								set /a %_H%
-								set /a %_I%
-								set /a %_J%
-							REM set /a %_K%
-								set /a %_L%
-								set /a %_M%
-								set /a %_N%
-								set /a %_O%
-								
-								
-								
-								
-								
-							) else if "!_0or1!%%d"=="1:" (set "S=!S!%GAP_DOT%") else set "S=!S! "
+			REM set /a "#x=0, #y=1"
+			if 1==1 (
+
+				REM SET "$erase_last_pin="
+				REM CLS
+				REM COLOR 0F
+
+
+					REM >"%~dp0tmp.txt"
+					(
+						REM echo;!tm!
+
+
+
+
+						REM $__=0 用于 在 E 和 K 位 不报错
+						REM "#_= " 用于 在 E 和 K 位 让运算式 "S=!S!#!#%%$!" 有值可取
+						set "$__=0" & set "#_=0"
+						set "S=" & set "_0or1=0"
+
+						REM 从上到下 逐次 生成 1~5 行图形
+						for %%L in ("A B C" "D _ F" "G H I" "J _ L" "M N O") do (
+
+
+
+							REM echo;LINE: %%L
+
+							REM 每行从左到右依次计算并填充各个位置
+							for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
+
+
+
+								REM echo;POS: %%d
+
+								REM 22:19:19.79
+
+
+								if "%%d" geq "0" (
+
+									REM echo;20190810_224502
+
+
+									REM 数字位
+									REM 获取数字准备计算 是否 显示
+									set "#=!tm:~%%d,1!"
+
+									REM 一个数字位 点 3 个像素宽, 要逐个像素计算 是否 显示
+									REM "S=!S!#!#%%$!" :  !#%%$! 的结果是加入一个 0 或者 1,
+									REM 在 0 或者 1 前加一个 _ 号, 这个符号不能用作画笔字符, 否则替换可能出错
+									REM 为了在后续将这些 0 或者 1, 便于被替换成 空格 或者 画笔字符
+									for %%$ in (%%~L) do (
+
+										REM echo;20190810_225301
+
+
+										set /a !$_%%$!
+
+
+REM _1_1_1 _1_1_1   _1_1_1 _1_1_1   _1_1_1 _1_0_1   _1_1_1 _0_0_1
+REM _0_ _1 _0_ _1 # _1_ _1 _1_ _0 # _1_ _0 _1_ _1 # _1_ _1 _0_ _1
+REM _1_1_1 _1_1_1   _1_0_1 _1_1_1   _1_1_1 _1_1_1   _1_1_1 _0_0_1
+REM _1_ _0 _1_ _0 # _1_ _1 _0_ _1 # _0_ _1 _0_ _1 # _0_ _1 _0_ _1
+REM _1_1_1 _1_1_1   _1_1_1 _1_1_1   _1_1_1 _0_0_1   _1_1_1 _0_0_1
+
+
+										REM echo;^^$=%%$
+										REM echo;$_%%$=!$_%%$!
+										REM echo;#=!#!
+										REM echo;#A=!#A!
+										REM echo;#%%$=!#%%$!
+
+
+										REM echo;20190810_224603
+										set "S=!S!_!#%%$!"
+
+
+										REM echo;数字位
+										REM set
+									)
+
+								) else if "!_0or1!%%d"=="1:" (
+
+									REM echo;20190810_224618
+
+									REM 第 2, 4 行的分隔位
+									set "S=!S!%_PEN%"
+
+
+										REM echo;第 2, 4 行的分隔位
+										REM set
+
+								) else (
+
+									REM echo;20190810_224633
+
+									REM 恒空白位
+									set "S=!S! "
+
+
+										REM echo;恒空白位
+										REM set
+								)
+							)
+
+							REM echo;20190810_224645
+
+							REM 先左移 37 到图形最左边, 再下移一行
+							set "S=!S!%_LEFT37DOWN1%"
+
+
+							REM echo;20190810_224656
+
+							set /a "_0or1^=1"
 						)
-						set /a "_0or1^=1"
+
+
+
+
+						REM echo;20190810_224709
+
+						set "S=!S:_0= !" & set "S=!S:_1=%_PEN%!"
+						REM set
+
 					)
-					set "S=!S:1=%DOT%!" & set "S=!S:0= !"
 
-					(2>nul echo;%TAB%!BSs!) & <nul set /p "=%BS%"
+				<nul set /p "=%_ESC%[1;1H!S!"
 
+				REM echo;!S!
 
-					<nul set /p "=%BS%!S!"
-
+				REM pause
+				REM exit
 			)
-				
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
+
+
 
 	)
 )
