@@ -83,8 +83,8 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 	if 1==1 (
 		REM gen clock dial: Distance method, quick but not meticulous
 		title gen clock dial: Distance method, quick but not meticulous
-		for /L %%x in (1 1 %_XC%) do (
-			for /L %%y in (1 1 %_YC%) do (
+		for /L %%y in (%_YC% -1 1) do (
+			for /L %%x in (1 1 %_XC%) do (
 				set /a "_dx=%%x-%_XC%, _dy=%%y-%_YC%, t=_dx*_dx+_dy*_dy-%_R_FACE_SQ%-1"
 				if !t! lss 0 (
 					set /a "#x_=%_2XC%-%%x, #y_=%_2YC%-%%y"
