@@ -244,8 +244,7 @@ REM set "_K="K = 0""                                    & rem never display
 			
 			
 			if 0==1 (
-				set /a "t=!time:~-1!" & set /a "t ^= z, z ^= t"
-				if !t! neq 0 (
+
 					set "S=" & set "zeroOrOne=0"
 					for %%L in ("A B C" "D _ F" "G H I" "J _ L" "M N O") do (
 						for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
@@ -262,7 +261,7 @@ REM set "_K="K = 0""                                    & rem never display
 
 
 					<nul set /p "=%BS%!S!"
-				)
+
 			)
 				
 			
