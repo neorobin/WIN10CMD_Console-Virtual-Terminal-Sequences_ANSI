@@ -245,15 +245,40 @@ REM set "_K="K = 0""                                    & rem never display
 			
 			if 0==1 (
 
-					set "S=" & set "zeroOrOne=0"
+					set "S=" & set "_0or1=0"
 					for %%L in ("A B C" "D _ F" "G H I" "J _ L" "M N O") do (
 						for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
 							if "%%d" geq "0" (
-								set "tm=!time: =0!" & set "x=!tm:~%%d,1!"
-								for %%_ in (%%~L) do set /a !_%%_! & set "S=!S!!%%_!"
-							) else if "!zeroOrOne!%%d"=="1:" (set "S=!S!%GAP_DOT%") else set "S=!S! "
+								set "x=!tm:~%%d,1!"
+								REM for %%_ in (%%~L) do set /a !_%%_! & set "S=!S!!%%_!"
+								
+								
+
+
+
+								set /a %_A%
+								set /a %_B%
+								set /a %_C%
+								set /a %_D%
+							REM set /a %_E%
+								set /a %_F%
+								set /a %_G%
+								set /a %_H%
+								set /a %_I%
+								set /a %_J%
+							REM set /a %_K%
+								set /a %_L%
+								set /a %_M%
+								set /a %_N%
+								set /a %_O%
+								
+								
+								
+								
+								
+							) else if "!_0or1!%%d"=="1:" (set "S=!S!%GAP_DOT%") else set "S=!S! "
 						)
-						set /a "zeroOrOne^=1"
+						set /a "_0or1^=1"
 					)
 					set "S=!S:1=%DOT%!" & set "S=!S:0= !"
 
