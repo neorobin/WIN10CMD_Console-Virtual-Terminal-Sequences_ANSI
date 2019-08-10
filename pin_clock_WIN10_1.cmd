@@ -66,6 +66,7 @@ REM <nul set /p "=%_ESC%[!p"
 
 set "$erase_last_pin="
 set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
+set /a "_DDS_OF_A_DAY=24*60*60*100"
 
 (
 	for /f "delims==" %%a in ('set _') do set "%%a="
@@ -143,7 +144,7 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 
 
 
-	set /a "_cnt=0"
+	set /a "_cnt=0, $v=-1"
 	for /L %%i in () do (
 
 			set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, DD=1!tm:~-2!-100"
@@ -185,8 +186,8 @@ set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, 
 			set "$erase_last_pin=!$pin:%_PEN%= !"
 			set "$pin="
 
-			set /a "_cnt+=1"
-			title !tm! B: _cnt=!_cnt!
+			set /a "_cnt+=1, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, FPS=100/($$+=$$>>31&%_DDS_OF_A_DAY%), $v=$u"
+			title !tm! B: FPS=!FPS! _cnt=!_cnt!
 
 	)
 )
