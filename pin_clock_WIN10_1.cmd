@@ -144,7 +144,7 @@ set /a "_DDS_OF_A_DAY=24*60*60*100"
 
 
 
-	set /a "_cnt=0, $v=-1"
+	set /a "_cnt=0, $v=0"
 	for /L %%i in () do (
 
 			set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, DD=1!tm:~-2!-100"
@@ -186,8 +186,23 @@ set /a "_DDS_OF_A_DAY=24*60*60*100"
 			set "$erase_last_pin=!$pin:%_PEN%= !"
 			set "$pin="
 
-			set /a "_cnt+=1, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, FPS=100/($$+=$$>>31&%_DDS_OF_A_DAY%), $v=$u"
-			title !tm! B: FPS=!FPS! _cnt=!_cnt!
+			title !tm!
+			REM 每 GAP 帧计算一次 FPS, ! GAP 必须是不小于 2 的 2的幂
+			set /a "GAP=32, _cnt+=1, t=-(_cnt&(GAP-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*GAP/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
+			if !t!==0 (
+				REM title FPS:!FPS!; dds:!$$!; _cnt:!_cnt!
+				<nul set /p "=%_ESC%[48;2;0;0;0m%_ESC%[1;1HFPS:!FPS! %_ESC%[48;2;%_RGB_FACE%m"
+			)
+			REM if !_cnt!==48 (
+				REM set "$erase_last_pin="
+				REM set
+				REM echo t=!t!
+				REM echo $$=!$$!
+				REM echo FPS=!FPS!
+				REM echo GAP=!GAP!
+				REM echo $u=!$u!
+				REM pause
+			REM )
 
 	)
 )
