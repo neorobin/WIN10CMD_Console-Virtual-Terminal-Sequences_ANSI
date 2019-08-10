@@ -167,13 +167,10 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 	set /a "_cnt=0"
 	for /L %%i in () do (
 
-		set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, DD=1!tm:~-2!-100"
+			set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, DD=1!tm:~-2!-100"
 
-		set /a "th_S=%_PI% - (SS * 100 + DD) * %_6DEG% / 100, th_M=%_PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG%"
+			set /a "th_S=%_PI% - (SS * 100 + DD) * %_6DEG% / 100, th_M=%_PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG%"
 
-			
-		if 1==1 (
-			
 			set /a "th=th_D, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 			for /l %%a in (0 1 %_PIN_LEN_D%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
@@ -201,54 +198,52 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 			)
 			set "$pin=%_ESC%[38;2;%_RGB_H%m!$pin!"
-			
-		)
 
-		<nul set /p "=!$erase_last_pin!!$pin!"
+			<nul set /p "=!$erase_last_pin!!$pin!"
 
-		set "$erase_last_pin=!$pin:%_PEN%= !"
-		set "$pin="
+			set "$erase_last_pin=!$pin:%_PEN%= !"
+			set "$pin="
 
-		set /a "_cnt+=1"
-		title !tm! double display B: _cnt=!_cnt!
+			set /a "_cnt+=1"
+			title !tm! double display A: _cnt=!_cnt!
 
-		set "S=" & set "_0or1=0"
-		REM 从上到下 逐次 生成 1~5 行图形
+			set "S=" & set "_0or1=0"
+			REM 从上到下 逐次 生成 1~5 行图形
 
-		REM "A B C" "D _ F" "G H I" "J _ L" "M N O"
-		REM I 和 O 的逻辑与 C 完全一致, 由 C 代替
-		REM N 的逻辑与 M 完全一致, 由 M 代替
+			REM "A B C" "D _ F" "G H I" "J _ L" "M N O"
+			REM I 和 O 的逻辑与 C 完全一致, 由 C 代替
+			REM N 的逻辑与 M 完全一致, 由 M 代替
 
-		for %%L in ("A B C" "D _ F" "G H C" "J _ L" "M M C") do (
-			REM 每行从左到右依次计算并填充各个位置
-			for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
-				if "%%d" geq "0" (
-					REM 获取数字准备计算 是否 显示
-					set "#=!tm:~%%d,1!"
+			for %%L in ("A B C" "D _ F" "G H C" "J _ L" "M M C") do (
+				REM 每行从左到右依次计算并填充各个位置
+				for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
+					if "%%d" geq "0" (
+						REM 获取数字准备计算 是否 显示
+						set "#=!tm:~%%d,1!"
 
-					REM 一个数字位 点 3 个像素宽, 要逐个像素计算 是否 显示
-					REM "S=!S!#!#%%$!" :  !#%%$! 的结果是加入一个 0 或者 1,
-					REM 在 0 或者 1 前加一个 _ 号, 这个符号不能用作画笔字符, 否则替换可能出错
-					REM 为了在后续将这些 0 或者 1, 便于被替换成 空格 或者 画笔字符
-					for %%$ in (%%~L) do (
-						set /a !$_%%$!
-						set "S=!S!_!#%%$!"
+						REM 一个数字位 点 3 个像素宽, 要逐个像素计算 是否 显示
+						REM "S=!S!#!#%%$!" :  !#%%$! 的结果是加入一个 0 或者 1,
+						REM 在 0 或者 1 前加一个 _ 号, 这个符号不能用作画笔字符, 否则替换可能出错
+						REM 为了在后续将这些 0 或者 1, 便于被替换成 空格 或者 画笔字符
+						for %%$ in (%%~L) do (
+							set /a !$_%%$!
+							set "S=!S!_!#%%$!"
+						)
+					) else if "!_0or1!%%d"=="1:" (
+						REM 第 2, 4 行的分隔位
+						set "S=!S!%_PEN%"
+					) else (
+						REM 恒空白位
+						set "S=!S! "
 					)
-				) else if "!_0or1!%%d"=="1:" (
-					REM 第 2, 4 行的分隔位
-					set "S=!S!%_PEN%"
-				) else (
-					REM 恒空白位
-					set "S=!S! "
 				)
-			)
 
-			REM 先左移 37 到图形最左边, 再下移一行
-			set "S=!S!%_LEFT37DOWN1%"
-			set /a "_0or1^=1"
-		)
-		set "S=!S:_0= !"
-		<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S:_1=%_PEN%!"
+				REM 先左移 37 到图形最左边, 再下移一行
+				set "S=!S!%_LEFT37DOWN1%"
+				set /a "_0or1^=1"
+			)
+			set "S=!S:_0= !"
+			<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S:_1=%_PEN%!"
 
 	)
 )
