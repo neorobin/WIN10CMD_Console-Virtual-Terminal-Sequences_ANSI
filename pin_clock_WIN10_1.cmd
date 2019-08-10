@@ -15,7 +15,7 @@ set "_PEN_SCALE=*"
 
 set /a "_SIZE=50" & REM Set the size of the clock, recommended from 29 to 100
 set /a "_s=(_SIZE-15)>>31, _SIZE=(15&_s)+(_SIZE&~_s)" & REM size lower limit: 15
-set /a "_WID=_HEI=_SIZE|1,_R_FACE=_WID/2-1, _R_FACE_SQ=_R_FACE*_R_FACE, _R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2,_PINLEN_S=_R_FACE-3,_PINLEN_M=_PINLEN_S-1,_PINLEN_H=_PINLEN_S/2+1,_PINLEN_D=_PINLEN_S/2-0"
+set /a "_WID=_HEI=_SIZE|1,_R_FACE=_WID/2-1, _R_FACE_SQ=_R_FACE*_R_FACE, _R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2,_PINLEN_S=_R_FACE-3,_PINLEN_M=_PINLEN_S-1,_PINLEN_H=_PINLEN_S/2+_SIZE/15,_PINLEN_D=_PINLEN_S/2-0"
 color 0F & mode !_WID!,!_HEI!
 REM color 0F & mode !_WID!,200
 set "Path="
