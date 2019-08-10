@@ -96,11 +96,11 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 	for /f "delims==" %%a in ('set _') do set "%%a="
 
 
-	set /a "_PIN_LEN_S=%_R_FACE%-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+_SIZE/15,_PIN_LEN_D=_PIN_LEN_S/2-0"
-	set "_RGB_D=0;255;0"
-	set "_RGB_S=255;0;0"
-	set "_RGB_M=100;100;100"
-	set "_RGB_H=0;0;0"
+	REM set /a "_PIN_LEN_S=%_R_FACE%-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+_SIZE/15,_PIN_LEN_D=_PIN_LEN_S/2-0"
+	REM set "_RGB_D=0;255;0"
+	REM set "_RGB_S=255;0;0"
+	REM set "_RGB_M=100;100;100"
+	REM set "_RGB_H=0;0;0"
 
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
