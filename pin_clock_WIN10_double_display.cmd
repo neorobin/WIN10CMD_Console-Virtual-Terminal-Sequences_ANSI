@@ -256,21 +256,10 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 			title !tm! double display B: _cnt=!_cnt!
 
 
-
-			REM set /a "#x=0, #y=1"
 			if 1==1 (
 
-				REM SET "$erase_last_pin="
-				REM CLS
-				REM COLOR 0F
 
-
-					REM >"%~dp0tmp.txt"
 					(
-						REM echo;!tm!
-
-
-
 
 						REM $__=0 用于 在 E 和 K 位 不报错
 						REM "#_= " 用于 在 E 和 K 位 让运算式 "S=!S!#!#%%$!" 有值可取
@@ -281,23 +270,10 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 						for %%L in ("A B C" "D _ F" "G H I" "J _ L" "M N O") do (
 
 
-
-							REM echo;LINE: %%L
-
 							REM 每行从左到右依次计算并填充各个位置
 							for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
 
-
-
-								REM echo;POS: %%d
-
-								REM 22:19:19.79
-
-
 								if "%%d" geq "0" (
-
-									REM echo;20190810_224502
-
 
 									REM 数字位
 									REM 获取数字准备计算 是否 显示
@@ -309,65 +285,46 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 									REM 为了在后续将这些 0 或者 1, 便于被替换成 空格 或者 画笔字符
 									for %%$ in (%%~L) do (
 
-										REM echo;20190810_225301
 
 
 										set /a !$_%%$!
 
 
-REM _1_1_1 _1_1_1   _1_1_1 _1_1_1   _1_1_1 _1_0_1   _1_1_1 _0_0_1
-REM _0_ _1 _0_ _1 # _1_ _1 _1_ _0 # _1_ _0 _1_ _1 # _1_ _1 _0_ _1
-REM _1_1_1 _1_1_1   _1_0_1 _1_1_1   _1_1_1 _1_1_1   _1_1_1 _0_0_1
-REM _1_ _0 _1_ _0 # _1_ _1 _0_ _1 # _0_ _1 _0_ _1 # _0_ _1 _0_ _1
-REM _1_1_1 _1_1_1   _1_1_1 _1_1_1   _1_1_1 _0_0_1   _1_1_1 _0_0_1
-
-
-										REM echo;^^$=%%$
-										REM echo;$_%%$=!$_%%$!
-										REM echo;#=!#!
-										REM echo;#A=!#A!
-										REM echo;#%%$=!#%%$!
-
-
-										REM echo;20190810_224603
 										set "S=!S!_!#%%$!"
 
 
-										REM echo;数字位
-										REM set
+
+
 									)
 
 								) else if "!_0or1!%%d"=="1:" (
 
-									REM echo;20190810_224618
+
 
 									REM 第 2, 4 行的分隔位
 									set "S=!S!%_PEN%"
 
 
-										REM echo;第 2, 4 行的分隔位
-										REM set
 
 								) else (
 
-									REM echo;20190810_224633
+
 
 									REM 恒空白位
 									set "S=!S! "
 
 
-										REM echo;恒空白位
-										REM set
+
 								)
 							)
 
-							REM echo;20190810_224645
+
 
 							REM 先左移 37 到图形最左边, 再下移一行
 							set "S=!S!%_LEFT37DOWN1%"
 
 
-							REM echo;20190810_224656
+
 
 							set /a "_0or1^=1"
 						)
@@ -375,19 +332,15 @@ REM _1_1_1 _1_1_1   _1_1_1 _1_1_1   _1_1_1 _0_0_1   _1_1_1 _0_0_1
 
 
 
-						REM echo;20190810_224709
-
 						set "S=!S:_0= !" & set "S=!S:_1=%_PEN%!"
-						REM set
+
 
 					)
 
 				<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S!"
 
-				REM echo;!S!
 
-				REM pause
-				REM exit
+
 			)
 
 
