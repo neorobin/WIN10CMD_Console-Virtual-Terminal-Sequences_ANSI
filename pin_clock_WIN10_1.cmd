@@ -4,6 +4,7 @@
 (for /f "delims==" %%a in ('set') do set "%%a=") & set "Path=%SystemRoot%\system32"
 
 for /F %%a in ('echo prompt $E^| cmd') do set "_ESC=%%a"
+REM cd /d "%~dp0"
 REM call :getASCII219 & rem get ASCII 219 to var _ASCII219
 if defined _ASCII219 (
 	set "_PEN=%_ASCII219%"
@@ -203,7 +204,7 @@ exit
 call :getASCII219_
 >nul copy 219.chr /b + 13.chr /b 219_CR.chr /b
 <219_CR.chr set /p "_ASCII219="
-for %%N in (13 219 219_CR) do del %%N.chr
+REM for %%N in (13 219 219_CR) do del %%N.chr
 exit /b
 REM end of :getBackSpaceAndASCII219
 
