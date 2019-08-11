@@ -209,7 +209,8 @@ set /a "_GAP=2<<5"
         REM Fifteen segment display
 
         set "S=" & set "_0or1=0"
-        REM 从上到下 逐次 生成 1~5 行图形
+
+        REM 从上到下 逐次 生成 第 1 ~ 第 5 行图形
 
         REM "A B C" "D _ F" "G H I" "J _ L" "M N O"
         REM I 和 O 的逻辑与 C 完全一致, 由 C 代替
