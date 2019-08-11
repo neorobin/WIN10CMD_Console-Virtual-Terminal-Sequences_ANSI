@@ -216,7 +216,7 @@ set /a "_GAP=2<<5"
             REM Calculate and fill each position from left to right in each row
             for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
                 if "%%d" geq "0" (
-                    REM 获取 1 个单独数字
+                    REM Get a single digit
                     set "#=!tm:~%%d,1!"
 
                     REM 一个数字位 点 3 个像素宽, 要逐个像素计算 是否 显示
