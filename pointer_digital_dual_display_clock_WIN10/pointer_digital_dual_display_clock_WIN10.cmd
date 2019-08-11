@@ -83,24 +83,24 @@ set /a "_XCZOOM = 10000 * _WID/2, _XC=_WID/2+1, _YCZOOM = 10000 * _HEI/2, _YC=_H
 
 set /a "_2XC=2*_XC, _2YC=2*_YC"
 
-<nul set /p "=%_ESC%[?25l" & REM _ESC [ ? 25 l    DECTCEM    Text Cursor Enable Mode Hide    Hide the cursor
+<nul set /p "=%_ESC%[?25l" & REM ESC [ ? 25 l  DECTCEM   Text Cursor Enable Mode Hide  Hide the cursor
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::
-:: angle of HOUR PIN:                 HH * 30deg + MM * 30deg / 60 + SS * 30deg / 3600
-::                                      = ((HH * 60 + MM) * 60 + SS) * 30deg / 3600
-::                                      = ((HH * 60 + MM) * 60 + SS) * deg / 120
+:: angle of HOUR PIN:           HH * 30deg + MM * 30deg / 60 + SS * 30deg / 3600
+::                              = ((HH * 60 + MM) * 60 + SS) * 30deg / 3600
+::                              = ((HH * 60 + MM) * 60 + SS) * deg / 120
 ::
-:: angle of MINUTE PIN:             MM * 6deg + SS * 6deg / 60
-::                                      = (MM * 60 + SS) * 6deg / 60
-::                                      = (MM * 60 + SS) * deg / 10
+:: angle of MINUTE PIN:         MM * 6deg + SS * 6deg / 60
+::                              = (MM * 60 + SS) * 6deg / 60
+::                              = (MM * 60 + SS) * deg / 10
 ::
-:: angle of SECOND PIN:             SS * 6deg
-::                                     OR
-::                                    (SS * 100 + CC)    / 100 * 6deg
-::                                     = (SS * 100 + CC) * 6deg / 100
+:: angle of SECOND PIN:         SS * 6deg
+::                              OR
+::                              (SS * 100 + CC)    / 100 * 6deg
+::                              = (SS * 100 + CC) * 6deg / 100
 ::
-:: angle of CENTISECOND PIN:         CC * 360deg / 100 = CC * 36deg / 10
+:: angle of CENTISECOND PIN:    CC * 360deg / 100 = CC * 36deg / 10
 ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -155,7 +155,6 @@ set /a "_GAP=2<<5"
         set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
         <nul set /p "=!$pin!"
         set "$pin="
-        REM title gen clock dial: rotary scanning polishing edge %%i / %_DENSITY%
     )
 
     REM nail up scale
