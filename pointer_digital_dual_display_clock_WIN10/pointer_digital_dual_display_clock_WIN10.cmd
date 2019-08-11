@@ -44,7 +44,7 @@ set /a "_WID=_HEI=_SIZE|1,_R_FACE=_WID/2-1, _R_FACE_SQ=_R_FACE*_R_FACE, _R_FACE_
 
 set /a "_LEFT_FIFTEEN_SEGMENT_DISPLAY=(_WID-_WID_FIFTEEN_SEGMENT_DISPLAY_LOW_LIMIT)/2+1, _TOP_FIFTEEN_SEGMENT_DISPLAY=_WID/2+_R_FACE/4"
 
-color 0F & mode !_WID!,!_HEI!
+color 0F & mode %_WID%,%_HEI%
 
 REM The work that needs "Path" is done, now you can clean it up.
 set "Path="
@@ -74,10 +74,10 @@ REM <nul set /p "=%_ESC%[!p"
 ::
 :: angle of SECOND PIN: 			SS * 6deg
 ::     								OR
-::									(SS * 100 + DD)	/ 100 * 6deg
-::									 = (SS * 100 + DD) * 6deg / 100
+::									(SS * 100 + CC)	/ 100 * 6deg
+::									 = (SS * 100 + CC) * 6deg / 100
 ::
-:: angle of Percentile second PIN: 	DD * 360deg / 100 = DD * 36deg / 10
+:: angle of CENTISECOND PIN: 		CC * 360deg / 100 = CC * 36deg / 10
 ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -87,7 +87,7 @@ set "_RGB_FACE=255;255;255"
 set "$erase_last_pin="
 set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
 
-set /a "_DDS_OF_A_DAY=24*60*60*100"
+set /a "_CENTISECONDS_OF_A_DAY=24*60*60*100"
 
 set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
@@ -100,8 +100,8 @@ set /a "_GAP=2<<5"
 (
 	for /f "delims==" %%a in ('set _') do set "%%a="
 
-	set /a "_PIN_LEN_S=%_R_FACE%-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+%_SIZE%/15,_PIN_LEN_D=_PIN_LEN_S/4-0"
-	set "_RGB_D=0;255;0"
+	set /a "_PIN_LEN_S=%_R_FACE%-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+%_SIZE%/15,_PIN_LEN_C=_PIN_LEN_S/4-0"
+	set "_RGB_C=0;255;0"
 	set "_RGB_S=255;0;0"
 	set "_RGB_M=100;100;100"
 	set "_RGB_H=0;0;0"
@@ -171,12 +171,12 @@ set /a "_GAP=2<<5"
 	set /a "_cnt=0, $v=0"
 	for /L %%i in () do (
 
-		set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, DD=1!tm:~-2!-100"
+		set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, CC=1!tm:~-2!-100"
 
-		set /a "th_S=%_PI% - (SS * 100 + DD) * %_6DEG% / 100, th_M=%_PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG%"
+		set /a "th_S=%_PI% - (SS * 100 + CC) * %_6DEG% / 100, th_M=%_PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_C=%_PI% - CC*%_3.6DEG%"
 
 		REM Draw 4 pointers
-		for %%K in (D S M H) do (
+		for %%K in (C S M H) do (
 			set /a "th=th_%%K, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 			for /l %%a in (0 1 !_PIN_LEN_%%K!) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
@@ -229,7 +229,7 @@ set /a "_GAP=2<<5"
 		set "S=!S:_0= !"
 		<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S:_1=%_PEN%!"
 
-		set /a "t=-((_cnt+=1)&(%_GAP%-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*%_GAP%/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
+		set /a "t=-((_cnt+=1)&(%_GAP%-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+CC)-$v, $$+=$$>>31&%_CENTISECONDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*%_GAP%/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
 		if !t!==0 (
 			<nul set /p "=%_ESC%[48;2;0;0;0m%_ESC%[1;1HFPS:!FPS! %_ESC%[48;2;%_RGB_FACE%m"
 		)
