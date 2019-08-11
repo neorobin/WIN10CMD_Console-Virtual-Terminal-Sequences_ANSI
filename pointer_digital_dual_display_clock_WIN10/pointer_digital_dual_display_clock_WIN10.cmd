@@ -54,7 +54,7 @@ set "_COS=(10000-t*t/20000+t*t/1875*t/15625*t/819200-t*t/1875*t/15360*t/15625*t/
 
 set /a "_PI=31416, _2PI=2*_PI, _PI#2=_PI/2, _3PI#2=3*_PI/2, _3PI#2_1=_3PI#2-1, _DEG=_PI/180, _6DEG=6*_PI/180, _30DEG=30*_PI/180, _3.6DEG=36*_PI/(180*10)"
 
-set /a "_XCZOOM = 10000 * _WID/2, _XC=_WID/2+1, _YCZOOM = 10000 * _HEI/2, _YC=_HEI/2+1, _TH0=!random! %% 360 * %_DEG%, _TH0=0"
+set /a "_XCZOOM = 10000 * _WID/2, _XC=_WID/2+1, _YCZOOM = 10000 * _HEI/2, _YC=_HEI/2+1, _TH0=!random! %% 360 * %_DEG%, _TH0=-_PI#2"
 
 set /a "_2XC=2*_XC, _2YC=2*_YC"
 
@@ -83,7 +83,7 @@ set "_RGB_SCALE=0;0;255"
 set "_RGB_FACE=255;255;255"
 
 set "$erase_last_pin="
-set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
+set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0, _DTH=-_SPEED"
 
 set /a "_CENTISECONDS_OF_A_DAY=24*60*60*100"
 
@@ -109,12 +109,12 @@ set /a "_GAP=2<<5"
 
 	REM gen clock dial: Distance method, quick but not meticulous
 	REM title gen clock dial: Distance method, quick but not meticulous
-	for /L %%y in (%_YC% -1 1) do (
-		for /L %%x in (1 1 %_XC%) do (
+	for /L %%x in (%_XC% -1 1) do (
+		for /L %%y in (%_YC% -1 1) do (		
 			set /a "_dx=%%x-%_XC%, _dy=%%y-%_YC%, t=_dx*_dx+_dy*_dy-%_R_FACE_SQ%-1"
 			if !t! lss 0 (
 				set /a "#x_=%_2XC%-%%x, #y_=%_2YC%-%%y"
-				set "$pin=%_ESC%[!#x_!;%%yH%_PEN%%_ESC%[%%x;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[%%x;%%yH%_PEN%!$pin!"
+				set "$pin=%_ESC%[%%y;!#x_!H%_PEN%%_ESC%[!#y_!;%%xH%_PEN%%_ESC%[!#y_!;!#x_!H%_PEN%%_ESC%[%%y;%%xH%_PEN%!$pin!"
 			)
 		)
 		set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
@@ -124,9 +124,9 @@ set /a "_GAP=2<<5"
 
 	REM gen clock dial: rotary scanning polishing edge
 	for /L %%i in (0 1 %_DENSITY%) do (
-		set /a "th+=-%_SPEED%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1),  #x=(%_XCZOOM%+%_R_FACE%*#C)/10000+1, #y=(%_YCZOOM%+%_R_FACE%*#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
+		set /a "th+=%_SPEED%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1),  #x=(%_XCZOOM%+%_R_FACE%*#C)/10000+1, #y=(%_YCZOOM%+%_R_FACE%*#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
 
-		set "$pin=%_ESC%[!#x_!;!#y!H%_PEN%%_ESC%[!#x!;!#y_!H%_PEN%%_ESC%[!#x_!;!#y_!H%_PEN%%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
+		set "$pin=%_ESC%[!#y!;!#x_!H%_PEN%%_ESC%[!#y_!;!#x!H%_PEN%%_ESC%[!#y_!;!#x_!H%_PEN%%_ESC%[!#y!;!#x!H%_PEN%!$pin!"
 
 		set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
 		<nul set /p "=!$pin!"
@@ -138,17 +138,17 @@ set /a "_GAP=2<<5"
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 	for /L %%i in (0 1 3) do (
 			set /a "r3=%%i %% 3"
-			set /a "th=%_PI% - %%i*%_2PI%/12, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
+			set /a "th=-%_PI#2% + %%i*%_2PI%/12, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 
 			for /l %%a in (0 1 %_R_FACE%) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
 				if !r3!==0 (
 					if %%a geq %_R_FACE_2% if %%a lss %_R_FACE% (
-						set "$pin=%_ESC%[!#x!;!#y!H%_PEN_SCALE%%_ESC%[!#x_!;!#y_!H%_PEN_SCALE%%_ESC%[!#x_!;!#y!H%_PEN_SCALE%%_ESC%[!#x!;!#y_!H%_PEN_SCALE%!$pin!"
+						set "$pin=%_ESC%[!#y!;!#x!H%_PEN_SCALE%%_ESC%[!#y_!;!#x_!H%_PEN_SCALE%%_ESC%[!#y!;!#x_!H%_PEN_SCALE%%_ESC%[!#y_!;!#x!H%_PEN_SCALE%!$pin!"
 					)
 				) else (
 					if %%a equ %_R_FACE_1% (
-						set "$pin=%_ESC%[!#x!;!#y!H%_PEN_SCALE%%_ESC%[!#x_!;!#y_!H%_PEN_SCALE%%_ESC%[!#x_!;!#y!H%_PEN_SCALE%%_ESC%[!#x!;!#y_!H%_PEN_SCALE%!$pin!"
+						set "$pin=%_ESC%[!#y!;!#x!H%_PEN_SCALE%%_ESC%[!#y_!;!#x_!H%_PEN_SCALE%%_ESC%[!#y!;!#x_!H%_PEN_SCALE%%_ESC%[!#y_!;!#x!H%_PEN_SCALE%!$pin!"
 					)
 				)
 			)
