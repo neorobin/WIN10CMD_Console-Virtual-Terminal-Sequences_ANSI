@@ -94,7 +94,7 @@ set /a "_DDS_OF_A_DAY=24*60*60*100"
 
 set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
-title DOUBLE DISPLAY CLOCK
+title pointer_digital_dual_display_clock_WIN10
 
 (
 	for /f "delims==" %%a in ('set _') do set "%%a="
