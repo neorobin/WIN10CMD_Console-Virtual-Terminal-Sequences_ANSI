@@ -57,13 +57,8 @@ REM <nul set /p "=%_ESC%[!p"
 ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-	set "_RGB_SCALE=0;0;255"
-	set "_RGB_FACE=255;255;255"
-	REM set "_RGB_D=0;255;0"
-	REM set "_RGB_S=255;0;0"
-	REM set "_RGB_M=100;100;100"
-	REM set "_RGB_H=0;0;0"
-
+set "_RGB_SCALE=0;0;255"
+set "_RGB_FACE=255;255;255"
 
 set "$erase_last_pin="
 set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
