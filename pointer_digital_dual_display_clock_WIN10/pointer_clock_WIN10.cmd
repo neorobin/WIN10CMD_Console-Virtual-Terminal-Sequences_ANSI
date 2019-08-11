@@ -10,40 +10,10 @@
 ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-@echo off & setlocal DISABLEDELAYEDEXPANSION
+@echo off & setlocal enabledelayedexpansion
 >nul chcp 437
 
 (for /f "delims==" %%a in ('set') do set "%%a=") & set "Path=%SystemRoot%\system32"
-
-:: for Fifteen-segment display logic
-:: The following pattern code is not necessary, just to illustrate the logical principle of the show
-::
-::  ###   # ### ### # # ### ### ### ### ### ABC
-::  # #   #   #   # # # #   #     # # # # # DEF
-::  # #   # ### ### ### ### ###   # ### ### GHI
-::  # #   # #     #   #   # # #   # # #   # JKL
-::  ###   # ### ###   # ### ###   # ### ### MNO
-
-    set "$_A="#A=!!(#-1)""
-    set "$_B="#B=(!!(#-1)^&!!(#-4))""
-    set "$_C="#C=1""
-    set "$_D="#D=(!(#^&3)^|!!(#^&~3))^&!!(#-7)""
-REM set "$_E="#E=0""                                    & rem never display
-    set "$_F="#F=!!(#-5)^&!!(#-6)""
-    set "$_G="#G=!!(#-1)^&!!(#-7)""
-    set "$_H="#H=!(!#^|!(#-1)^|!(#-7))""
-REM set "$_I="#I=1""                                    & rem Replaced by C
-    set "$_J="#J=~#^&1^&!!(#-4)""
-REM set "$_K="#K=0""                                    & rem never display
-    set "$_L="#L=!!(#-2)""
-    set "$_M="#M=(!!(#-1)^&!!(#-4)^&!!(#-7))""
-REM set "$_N="#N=(!!(#-1)^&!!(#-4)^&!!(#-7))""          & rem Replaced by M
-REM set "$_O="#O=1""                                    & rem Replaced by C
-    set "$__="#_=0""                                    & rem Replace the calculation where E and K position
-                                                          rem 用于 代替 在 E 和 K 位 的计算
-REM "#_=0" 用于 在 E 和 K 位 让运算式 "S=!S!#!#%%$!" 有值可取
-
-@echo off & setlocal enabledelayedexpansion
 
 for /F %%a in ('echo prompt $E^| cmd') do set "_ESC=%%a"
 
