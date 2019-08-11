@@ -26,6 +26,10 @@ REM set "$_K="#K=0""                                    & rem never display
 	set "$_M="#M=(!!(#-1)^&!!(#-4)^&!!(#-7))""
 REM set "$_N="#N=(!!(#-1)^&!!(#-4)^&!!(#-7))""          & rem Replaced by M
 REM set "$_O="#O=1""									& rem Replaced by C
+	set "$__="#_=0""									& rem Replace the calculation where E and K position
+REM $__=0 用于 代替 在 E 和 K 位 的计算
+REM "#_= " 用于 在 E 和 K 位 让运算式 "S=!S!#!#%%$!" 有值可取
+
 
 @echo off & setlocal enabledelayedexpansion
 
@@ -158,12 +162,6 @@ set /a "_GAP=2<<5"
 	)
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
-
-
-	REM $__=0 用于 在 E 和 K 位 不报错
-	REM "#_= " 用于 在 E 和 K 位 让运算式 "S=!S!#!#%%$!" 有值可取
-	set "$__=0" & set "#_=0"
-
 
 	set /a "_cnt=0, $v=0"
 	for /L %%i in () do (
