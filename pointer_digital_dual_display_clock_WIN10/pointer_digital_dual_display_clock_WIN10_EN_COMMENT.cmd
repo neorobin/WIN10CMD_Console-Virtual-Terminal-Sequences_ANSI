@@ -84,20 +84,20 @@ set /a "_2XC=2*_XC, _2YC=2*_YC"
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::
-:: angle of HOUR PIN:                 HH * 30deg + MM * 30deg / 60 + SS * 30deg / 3600
-::                                      = ((HH * 60 + MM) * 60 + SS) * 30deg / 3600
-::                                      = ((HH * 60 + MM) * 60 + SS) * deg / 120
+:: angle of HOUR PIN:           HH * 30deg + MM * 30deg / 60 + SS * 30deg / 3600
+::                              = ((HH * 60 + MM) * 60 + SS) * 30deg / 3600
+::                              = ((HH * 60 + MM) * 60 + SS) * deg / 120
 ::
-:: angle of MINUTE PIN:             MM * 6deg + SS * 6deg / 60
-::                                      = (MM * 60 + SS) * 6deg / 60
-::                                      = (MM * 60 + SS) * deg / 10
+:: angle of MINUTE PIN:         MM * 6deg + SS * 6deg / 60
+::                              = (MM * 60 + SS) * 6deg / 60
+::                              = (MM * 60 + SS) * deg / 10
 ::
-:: angle of SECOND PIN:             SS * 6deg
-::                                     OR
-::                                    (SS * 100 + CC)    / 100 * 6deg
-::                                     = (SS * 100 + CC) * 6deg / 100
+:: angle of SECOND PIN:         SS * 6deg
+::                              OR
+::                              (SS * 100 + CC)    / 100 * 6deg
+::                              = (SS * 100 + CC) * 6deg / 100
 ::
-:: angle of CENTISECOND PIN:         CC * 360deg / 100 = CC * 36deg / 10
+:: angle of CENTISECOND PIN:    CC * 360deg / 100 = CC * 36deg / 10
 ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
