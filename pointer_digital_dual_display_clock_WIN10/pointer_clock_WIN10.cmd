@@ -148,38 +148,38 @@ set /a "_GAP=2<<6"
 		)
 
 
-		if 0==1 (
+		REM if 0==1 (
 
-			set /a "th=th_D, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-			for /l %%a in (0 1 !_PIN_LEN_D!) do (
-				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
-			)
-			set "$pin=%_ESC%[38;2;!_RGB_D!m!$pin!"
+			REM set /a "th=th_D, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
+			REM for /l %%a in (0 1 !_PIN_LEN_D!) do (
+				REM set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
+				REM set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
+			REM )
+			REM set "$pin=%_ESC%[38;2;!_RGB_D!m!$pin!"
 
-			set /a "th=th_S, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-			for /l %%a in (0 1 !_PIN_LEN_S!) do (
-				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
-			)
-			set "$pin=%_ESC%[38;2;!_RGB_S!m!$pin!"
+			REM set /a "th=th_S, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
+			REM for /l %%a in (0 1 !_PIN_LEN_S!) do (
+				REM set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
+				REM set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
+			REM )
+			REM set "$pin=%_ESC%[38;2;!_RGB_S!m!$pin!"
 
-			set /a "th=th_M, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-			for /l %%a in (0 1 !_PIN_LEN_M!) do (
-				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
-			)
-			set "$pin=%_ESC%[38;2;!_RGB_M!m!$pin!"
+			REM set /a "th=th_M, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
+			REM for /l %%a in (0 1 !_PIN_LEN_M!) do (
+				REM set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
+				REM set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
+			REM )
+			REM set "$pin=%_ESC%[38;2;!_RGB_M!m!$pin!"
 
 
-			set /a "th=th_H, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-			for /l %%a in (0 1 !_PIN_LEN_H!) do (
-				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-				set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
-			)
-			set "$pin=%_ESC%[38;2;!_RGB_H!m!$pin!"
+			REM set /a "th=th_H, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
+			REM for /l %%a in (0 1 !_PIN_LEN_H!) do (
+				REM set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
+				REM set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
+			REM )
+			REM set "$pin=%_ESC%[38;2;!_RGB_H!m!$pin!"
 
-		)
+		REM )
 
 		<nul set /p "=!$erase_last_pin!!$pin!"
 
