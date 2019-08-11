@@ -30,7 +30,6 @@ REM set "$_O="#O=1""									& rem Replaced by C
 REM $__=0 用于 代替 在 E 和 K 位 的计算
 REM "#_= " 用于 在 E 和 K 位 让运算式 "S=!S!#!#%%$!" 有值可取
 
-
 @echo off & setlocal enabledelayedexpansion
 
 for /F %%a in ('echo prompt $E^| cmd') do set "_ESC=%%a"
@@ -52,7 +51,6 @@ color 0F & mode %_WID%,%_HEI%
 
 REM The work that needs "Path" is done, now you can clean it up.
 set "Path="
-
 
 set "_SIN=(#-#*#/1875*#/320000+#*#/1875*#/15625*#/16000*#/2560000-#*#/1875*#/15360*#/15625*#/15625*#/16000*#/44800000)"
 set "_COS=(10000-#*#/20000+#*#/1875*#/15625*#/819200-#*#/1875*#/15360*#/15625*#/15625*#/10240000+#*#/1875*#/15360*#/15625*#/15625*#/16000*#/15625*#/229376000)"
@@ -105,7 +103,6 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 title pointer_digital_dual_display_clock_WIN10
 
-
 REM 每 _GAP 帧计算一次 FPS, ! _GAP 必须是不小于 2 的 2的幂
 set /a "_GAP=2<<5"
 
@@ -117,7 +114,6 @@ set /a "_GAP=2<<5"
 	set "_RGB_S=255;0;0"
 	set "_RGB_M=100;100;100"
 	set "_RGB_H=0;0;0"
-
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
