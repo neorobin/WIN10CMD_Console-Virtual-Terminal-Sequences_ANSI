@@ -8,7 +8,8 @@
 ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-@echo off & setlocal DISABLEDELAYEDEXPANSION & >nul chcp 437
+@echo off & setlocal DISABLEDELAYEDEXPANSION
+>nul chcp 437
 
 (for /f "delims==" %%a in ('set') do set "%%a=") & set "Path=%SystemRoot%\system32"
 
@@ -37,8 +38,7 @@ REM set "$_K="#K=0""                                    & rem never display
 REM set "$_N="#N=(!!(#-1)^&!!(#-4)^&!!(#-7))""          & rem Replaced by M
 REM set "$_O="#O=1""									& rem Replaced by C
 	set "$__="#_=0""									& rem Replace the calculation where E and K position
-REM $__=0 用于 代替 在 E 和 K 位 的计算
-REM "#_= " 用于 在 E 和 K 位 让运算式 "S=!S!#!#%%$!" 有值可取
+REM "#_=0" Let the expression "S=!S!#!#%%$!" have value to get where E and K position
 
 @echo off & setlocal enabledelayedexpansion
 
