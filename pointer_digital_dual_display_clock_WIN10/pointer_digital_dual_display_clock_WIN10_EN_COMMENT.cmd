@@ -220,8 +220,8 @@ set /a "_GAP=2<<5"
                     set "#=!tm:~%%d,1!"
 
                     REM One digit is 3 pixels wide and is calculated pixel by pixel.
-                    REM "S=!S!#!#%%$!" :  !#%%$! 的结果是加入一个 0 或者 1,
-                    REM 在 0 或者 1 前加一个 _ 号, 这个符号不能用作画笔字符, 否则替换可能出错
+                    REM "S=!S!_!#%%$!" :  !#%%$! The result is to add a 0 or 1,
+                    REM Add a _ sign before 0 or 1. This symbol cannot be used as a brush character, otherwise the replacement may be wrong;
                     REM 为了在后续将这些 0 或者 1, 便于被替换成 空格 或者 画笔字符
                     for %%$ in (%%~L) do (
                         set /a !$_%%$!
