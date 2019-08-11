@@ -15,7 +15,8 @@ set "_PEN_SCALE=*"
 
 set /a "_SIZE=51" & REM Set the size of the clock, recommended from 29 to 100
 set /a "_s=(_SIZE-15)>>31, _SIZE=(15&_s)+(_SIZE&~_s)" & REM size lower limit: 15
-set /a "_WID=_HEI=_SIZE|1,_R_FACE=_WID/2-1, _R_FACE_SQ=_R_FACE*_R_FACE, _R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2,_PIN_LEN_S=_R_FACE-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+_SIZE/15,_PIN_LEN_D=_PIN_LEN_S/2-0"
+
+set /a "_WID=_HEI=_SIZE|1,_R_FACE=_WID/2-1, _R_FACE_SQ=_R_FACE*_R_FACE, _R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2"
 color 0F & mode !_WID!,!_HEI!
 
 REM The work that needs "Path" is done, now you can clean it up.
@@ -58,10 +59,10 @@ REM <nul set /p "=%_ESC%[!p"
 
 	set "_RGB_SCALE=0;0;255"
 	set "_RGB_FACE=255;255;255"
-	set "_RGB_D=0;255;0"
-	set "_RGB_S=255;0;0"
-	set "_RGB_M=100;100;100"
-	set "_RGB_H=0;0;0"
+	REM set "_RGB_D=0;255;0"
+	REM set "_RGB_S=255;0;0"
+	REM set "_RGB_M=100;100;100"
+	REM set "_RGB_H=0;0;0"
 
 
 set "$erase_last_pin="
@@ -76,7 +77,7 @@ set /a "_GAP=2<<6"
 
 
 	set /a "_PIN_LEN_S=%_R_FACE%-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+3,_PIN_LEN_D=_PIN_LEN_S/4"
-	set /a "_HUE_H=0xFF, _HUE_M=0xBB, _HUE_S=0x55, _HUE_D=0x88"
+	REM set /a "_HUE_H=0xFF, _HUE_M=0xBB, _HUE_S=0x55, _HUE_D=0x88"
 	set "_RGB_D=0;255;0"
 	set "_RGB_S=255;0;0"
 	set "_RGB_M=100;100;100"
@@ -155,21 +156,21 @@ set /a "_GAP=2<<6"
 		set /a "th_S=%_PI% - (SS * 100 + DD) * %_6DEG% / 100, th_M=%_PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG%"
 
 		set /a "th=th_D, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-		for /l %%a in (0 1 %_PIN_LEN_D%) do (
+		for /l %%a in (0 1 !_PIN_LEN_D!) do (
 			set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
 			set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 		)
 		set "$pin=%_ESC%[38;2;!_RGB_D!m!$pin!"
 
 		set /a "th=th_S, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-		for /l %%a in (0 1 %_PIN_LEN_S%) do (
+		for /l %%a in (0 1 !_PIN_LEN_S!) do (
 			set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
 			set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 		)
 		set "$pin=%_ESC%[38;2;!_RGB_S!m!$pin!"
 
 		set /a "th=th_M, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-		for /l %%a in (0 1 %_PIN_LEN_M%) do (
+		for /l %%a in (0 1 !_PIN_LEN_M!) do (
 			set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
 			set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 		)
@@ -177,7 +178,7 @@ set /a "_GAP=2<<6"
 
 
 		set /a "th=th_H, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-		for /l %%a in (0 1 %_PIN_LEN_H%) do (
+		for /l %%a in (0 1 !_PIN_LEN_H!) do (
 			set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
 			set "$pin=%_ESC%[!#x!;!#y!H%_PEN%!$pin!"
 		)
