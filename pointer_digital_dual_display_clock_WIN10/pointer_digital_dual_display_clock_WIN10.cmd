@@ -96,6 +96,10 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 title pointer_digital_dual_display_clock_WIN10
 
+
+REM 每 _GAP 帧计算一次 FPS, ! _GAP 必须是不小于 2 的 2的幂
+set /a "_GAP=2<<5"
+
 (
 	for /f "delims==" %%a in ('set _') do set "%%a="
 
@@ -159,7 +163,6 @@ title pointer_digital_dual_display_clock_WIN10
 			set "$pin="
 			REM title nail up scale %%i / 2
 	)
-	REM title 
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
@@ -229,9 +232,8 @@ title pointer_digital_dual_display_clock_WIN10
 		)
 		set "S=!S:_0= !"
 		<nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S:_1=%_PEN%!"
-		
-		REM 每 GAP 帧计算一次 FPS, ! GAP 必须是不小于 2 的 2的幂
-		set /a "GAP=128, t=-((_cnt+=1)&(GAP-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*GAP/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
+
+		set /a "t=-((_cnt+=1)&(%_GAP%-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*%_GAP%/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
 		if !t!==0 (
 			<nul set /p "=%_ESC%[48;2;0;0;0m%_ESC%[1;1HFPS:!FPS! %_ESC%[48;2;%_RGB_FACE%m"
 		)
