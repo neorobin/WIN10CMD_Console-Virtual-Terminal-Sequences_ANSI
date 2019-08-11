@@ -228,7 +228,6 @@ set /a "_GAP=2<<5"
 		if !t!==0 (
 			<nul set /p "=%_ESC%[48;2;0;0;0m%_ESC%[1;1HFPS:!FPS! %_ESC%[48;2;%_RGB_FACE%m"
 		)
-		REM title !tm! double display B: _cnt=!_cnt!
 	)
 )
 
