@@ -38,10 +38,10 @@ REM <nul set /p "=%_ESC%[!p"
 ::
 :: angle of SECOND PIN: 			SS * 6deg
 ::     								OR
-::									(SS * 100 + DD)	/ 100 * 6deg
-::									 = (SS * 100 + DD) * 6deg / 100
+::									(SS * 100 + CC)	/ 100 * 6deg
+::									 = (SS * 100 + CC) * 6deg / 100
 ::
-:: angle of Percentile second PIN: 	DD * 360deg / 100 = DD * 36deg / 10
+:: angle of CENTISECOND PIN: 		CC * 360deg / 100 = CC * 36deg / 10
 ::
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -123,9 +123,9 @@ set "$erase_last_pin="
 	set /a "_cnt=0, $v=0"
 	for /L %%i in () do (
 
-		set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, DD=1!tm:~-2!-100"
+		set "tm=!time: =0!" & set /a "SS=1!tm:~6,2!-100, MM=1!tm:~3,2!-100, HH=1!tm:~0,2!-100, CC=1!tm:~-2!-100"
 
-		set /a "th_S=%_PI% - (SS * 100 + DD) * %_6DEG% / 100, th_M=%_PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - DD*%_3.6DEG%"
+		set /a "th_S=%_PI% - (SS * 100 + CC) * %_6DEG% / 100, th_M=%_PI% - (MM * 60 + SS) * %_DEG% / 10, th_H=%_PI% - ((HH * 60 + MM) * 60 + SS) * %_DEG% / 120, th_D=%_PI% - CC*%_3.6DEG%"
 
 		REM Draw 4 pointers
 		for %%K in (D S M H) do (
@@ -143,7 +143,7 @@ set "$erase_last_pin="
 		set "$pin="
 
 		title !tm!
-		set /a "t=-((_cnt+=1)&(%_GAP%-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_CENTISECONDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*%_GAP%/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
+		set /a "t=-((_cnt+=1)&(%_GAP%-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+CC)-$v, $$+=$$>>31&%_CENTISECONDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*%_GAP%/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
 		if !t!==0 (
 			<nul set /p "=%_ESC%[48;2;0;0;0m%_ESC%[1;1HFPS:!FPS! %_ESC%[48;2;%_RGB_FACE%m"
 		)
