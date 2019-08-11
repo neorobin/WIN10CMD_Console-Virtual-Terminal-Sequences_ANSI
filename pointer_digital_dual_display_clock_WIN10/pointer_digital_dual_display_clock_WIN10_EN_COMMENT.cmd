@@ -222,16 +222,16 @@ set /a "_GAP=2<<5"
                     REM One digit is 3 pixels wide and is calculated pixel by pixel.
                     REM "S=!S!_!#%%$!" :  !#%%$! The result is to add a 0 or 1,
                     REM Add a _ sign before 0 or 1. This symbol cannot be used as a brush character, otherwise the replacement may be wrong;
-                    REM 为了在后续将这些 0 或者 1, 便于被替换成 空格 或者 画笔字符
+                    REM This is done to make it easier to replace these 0 or 1 with spaces or brush characters.
                     for %%$ in (%%~L) do (
                         set /a !$_%%$!
                         set "S=!S!_!#%%$!"
                     )
                 ) else if "!_0or1!%%d"=="1:" (
-                    REM 第 2, 4 行的分隔位
+                    REM Separation postion of lines 2 and 4
                     set "S=!S!%_PEN%"
                 ) else (
-                    REM 恒空白位
+                    REM Always blank position
                     set "S=!S! "
                 )
             )
