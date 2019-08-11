@@ -18,17 +18,14 @@ color 0F & mode !_WID!,!_HEI!
 REM The work that needs "Path" is done, now you can clean it up.
 set "Path="
 
-
 set "_SIN=(t-t*t/1875*t/320000+t*t/1875*t/15625*t/16000*t/2560000-t*t/1875*t/15360*t/15625*t/15625*t/16000*t/44800000)"
 set "_COS=(10000-t*t/20000+t*t/1875*t/15625*t/819200-t*t/1875*t/15360*t/15625*t/15625*t/10240000+t*t/1875*t/15360*t/15625*t/15625*t/16000*t/15625*t/229376000)"
 
 set /a "_PI=31416, _2PI=2*_PI, _PI#2=_PI/2, _3PI#2=3*_PI/2, _3PI#2_1=_3PI#2-1, _DEG=_PI/180, _6DEG=6*_PI/180, _30DEG=30*_PI/180, _3.6DEG=36*_PI/(180*10)"
 
-
 set /a "_XCZOOM = 10000 * _WID/2, _XC=_WID/2+1, _YCZOOM = 10000 * _HEI/2, _YC=_HEI/2+1, _TH0=!random! %% 360 * %_DEG%, _TH0=0"
 REM set /a "_2XC=(%_XCZOOM%/10000+1)*2, _2YC=(%_YCZOOM%/10000+1)*2"
 set /a "_2XC=2*_XC, _2YC=2*_YC"
-
 
 REM <nul set /p "=%_ESC%[!p"
 
@@ -72,7 +69,6 @@ set /a "_GAP=2<<6"
 	set "_RGB_S=255;0;0"
 	set "_RGB_M=100;100;100"
 	set "_RGB_H=0;0;0"
-
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
@@ -129,7 +125,6 @@ set /a "_GAP=2<<6"
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
-
 	set /a "_cnt=0, $v=0"
 	for /L %%i in () do (
 
@@ -146,7 +141,6 @@ set /a "_GAP=2<<6"
 			)
 			set "$pin=%_ESC%[38;2;!_RGB_%%K!m!$pin!"
 		)
-
 
 		<nul set /p "=!$erase_last_pin!!$pin!"
 
