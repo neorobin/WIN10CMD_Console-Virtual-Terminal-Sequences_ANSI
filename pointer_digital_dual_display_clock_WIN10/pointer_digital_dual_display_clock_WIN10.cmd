@@ -83,7 +83,7 @@ set "_RGB_SCALE=0;0;255"
 set "_RGB_FACE=255;255;255"
 
 set "$erase_last_pin="
-set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0"
+set /a "_DENSITY=150, _SPEED=3*%_DEG%, th=_TH0"
 
 set /a "_CENTISECONDS_OF_A_DAY=24*60*60*100"
 
@@ -155,7 +155,6 @@ set /a "_GAP=2<<5"
 			set "$pin=%_ESC%[38;2;%_RGB_SCALE%m!$pin!"
 			<nul set /p "=!$erase_last_pin!!$pin!"
 			set "$pin="
-			REM title nail up scale %%i / 2
 	)
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
