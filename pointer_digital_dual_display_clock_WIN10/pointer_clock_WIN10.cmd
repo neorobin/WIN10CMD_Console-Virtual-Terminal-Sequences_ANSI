@@ -74,9 +74,6 @@ set /a "_GAP=2<<6"
 	set "_RGB_H=0;0;0"
 
 
-
-
-
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
 	REM gen clock dial: Distance method, quick but not meticulous
@@ -105,9 +102,6 @@ set /a "_GAP=2<<6"
 			set "$pin="
 			title gen clock dial: rotary scanning polishing edge %%i / %_DENSITY%
 	)
-	REM title B !time!
-	REM >nul pause
-
 
 	REM nail up scale
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
@@ -134,8 +128,6 @@ set /a "_GAP=2<<6"
 	)
 
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
-
-
 
 
 	set /a "_cnt=0, $v=0"
