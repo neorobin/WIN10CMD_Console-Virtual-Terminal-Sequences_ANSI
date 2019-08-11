@@ -75,8 +75,8 @@ set /a "_GAP=2<<6"
 (
 	for /f "delims==" %%a in ('set _') do set "%%a="
 
+	set /a "_PIN_LEN_S=%_R_FACE%-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+%_SIZE%/15,_PIN_LEN_D=_PIN_LEN_S/4-0"
 
-	set /a "_PIN_LEN_S=%_R_FACE%-3,_PIN_LEN_M=_PIN_LEN_S-1,_PIN_LEN_H=_PIN_LEN_S/2+3,_PIN_LEN_D=_PIN_LEN_S/4"
 	REM set /a "_HUE_H=0xFF, _HUE_M=0xBB, _HUE_S=0x55, _HUE_D=0x88"
 	set "_RGB_D=0;255;0"
 	set "_RGB_S=255;0;0"
