@@ -55,10 +55,8 @@ set "_COS=(10000-t*t/20000+t*t/1875*t/15625*t/819200-t*t/1875*t/15360*t/15625*t/
 set /a "_PI=31416, _2PI=2*_PI, _PI#2=_PI/2, _3PI#2=3*_PI/2, _3PI#2_1=_3PI#2-1, _DEG=_PI/180, _6DEG=6*_PI/180, _30DEG=30*_PI/180, _3.6DEG=36*_PI/(180*10)"
 
 set /a "_XCZOOM = 10000 * _WID/2, _XC=_WID/2+1, _YCZOOM = 10000 * _HEI/2, _YC=_HEI/2+1, _TH0=!random! %% 360 * %_DEG%, _TH0=0"
-REM set /a "_2XC=(%_XCZOOM%/10000+1)*2, _2YC=(%_YCZOOM%/10000+1)*2"
-set /a "_2XC=2*_XC, _2YC=2*_YC"
 
-REM <nul set /p "=%_ESC%[!p"
+set /a "_2XC=2*_XC, _2YC=2*_YC"
 
 <nul set /p "=%_ESC%[?25l" & REM _ESC [ ? 25 l	DECTCEM	Text Cursor Enable Mode Hide	Hide the cursor
 
