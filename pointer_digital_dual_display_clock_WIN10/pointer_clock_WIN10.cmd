@@ -84,8 +84,6 @@ set /a "_CENTISECONDS_OF_A_DAY=24*60*60*100"
 
 set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
-title pointer_digital_dual_display_clock_WIN10
-
 REM 每 _GAP 帧计算一次 FPS, ! _GAP 必须是 2 的幂, 并且不小于 2
 set /a "_GAP=2<<5"
 
@@ -101,7 +99,6 @@ set /a "_GAP=2<<5"
     <nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
     REM gen clock dial: Distance method, quick but not meticulous
-    REM title gen clock dial: Distance method, quick but not meticulous
     for /L %%x in (%_XC% -1 1) do (
         for /L %%y in (%_YC% -1 1) do (
             set /a "_dx=%%x-%_XC%, _dy=%%y-%_YC%, t=_dx*_dx+_dy*_dy-%_R_FACE_SQ%-1"
@@ -176,46 +173,7 @@ set /a "_GAP=2<<5"
         set "$erase_last_pin=!$pin:%_PEN%= !"
         set "$pin="
 
-        REM Fifteen segment display
-
-        set "S=" & set "_0or1=0"
-
-        REM 从上到下 逐次 生成 第 1 ~ 第 5 行图形
-
-        REM "A B C" "D _ F" "G H I" "J _ L" "M N O"
-        REM I 和 O 的逻辑与 C 完全一致, 由 C 代替
-        REM N 的逻辑与 M 完全一致, 由 M 代替
-
-        for %%L in ("A B C" "D _ F" "G H C" "J _ L" "M M C") do (
-            REM 每行从左到右依次计算并填充各个位置
-            for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
-                if "%%d" geq "0" (
-                    REM 获取 1 个单独数字
-                    set "#=!tm:~%%d,1!"
-
-                    REM 一个数字位占 3 个像素宽, 要逐个像素计算 是否 显示
-                    REM "S=!S!_!#%%$!" :  !#%%$! 的结果是加入一个 0 或者 1,
-                    REM 在 0 或者 1 前加一个 _ 号, 这个符号不能用作画笔字符, 否则替换可能出错
-                    REM 为了在后续将这些 0 或者 1, 便于被替换成 空格 或者 画笔字符
-                    for %%$ in (%%~L) do (
-                        set /a !$_%%$!
-                        set "S=!S!_!#%%$!"
-                    )
-                ) else if "!_0or1!%%d"=="1:" (
-                    REM 第 2, 4 行的分隔位
-                    set "S=!S!%_PEN%"
-                ) else (
-                    REM 恒空白位
-                    set "S=!S! "
-                )
-            )
-
-            REM 先左移 37 到图形最左边, 再下移一行
-            set "S=!S!%_LEFT37DOWN1%"
-            set /a "_0or1^=1"
-        )
-        set "S=!S:_0= !"
-        <nul set /p "=%_ESC%[%_TOP_FIFTEEN_SEGMENT_DISPLAY%;%_LEFT_FIFTEEN_SEGMENT_DISPLAY%H!S:_1=%_PEN%!"
+        title !tm! pointer_clock_WIN10
 
         set /a "t=-((_cnt+=1)&(%_GAP%-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+CC)-$v, $$+=$$>>31&%_CENTISECONDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*%_GAP%/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
         if !t!==0 (
