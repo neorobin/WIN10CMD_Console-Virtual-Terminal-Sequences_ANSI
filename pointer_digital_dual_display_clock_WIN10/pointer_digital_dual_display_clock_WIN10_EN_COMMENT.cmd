@@ -207,7 +207,7 @@ set /a "_GAP=2<<5"
         set "S=" & set "_0or1=0"
 
         REM Generate 1st to 5th line graphs one by one from top to bottom
-        
+
         REM "A B C" "D _ F" "G H I" "J _ L" "M N O"
         REM The logic of I and O is exactly the same as C, replaced by C
         REM The logic of N is exactly the same as M, replaced by M
@@ -236,7 +236,7 @@ set /a "_GAP=2<<5"
                 )
             )
 
-            REM 先左移 37 到图形最左边, 再下移一行
+            REM Move left 37 pixels to the left of the graph, then move down one line
             set "S=!S!%_LEFT37DOWN1%"
             set /a "_0or1^=1"
         )
