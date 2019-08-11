@@ -113,7 +113,7 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 title pointer_digital_dual_display_clock_WIN10
 
-REM 每 _GAP 帧计算一次 FPS, ! _GAP 必须是不小于 2 的 2的幂
+REM Calculate FPS once per _GAP frame, ! _GAP must be a power of 2, and not less than 2
 set /a "_GAP=2<<5"
 
 (
@@ -128,7 +128,6 @@ set /a "_GAP=2<<5"
     <nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 
     REM gen clock dial: Distance method, quick but not meticulous
-    REM title gen clock dial: Distance method, quick but not meticulous
     for /L %%x in (%_XC% -1 1) do (
         for /L %%y in (%_YC% -1 1) do (
             set /a "_dx=%%x-%_XC%, _dy=%%y-%_YC%, t=_dx*_dx+_dy*_dy-%_R_FACE_SQ%-1"
@@ -152,7 +151,6 @@ set /a "_GAP=2<<5"
         set "$pin=%_ESC%[38;2;%_RGB_FACE%m!$pin!"
         <nul set /p "=!$pin!"
         set "$pin="
-        REM title gen clock dial: rotary scanning polishing edge %%i / %_DENSITY%
     )
 
     REM nail up scale
