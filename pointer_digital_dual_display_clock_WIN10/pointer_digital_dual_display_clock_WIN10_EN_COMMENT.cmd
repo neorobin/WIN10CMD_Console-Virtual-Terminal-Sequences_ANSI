@@ -1,3 +1,13 @@
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::
+::  pointer_digital_dual_display_clock_WIN10_EN_COMMENT.cmd
+::
+::  author: neorobin 20190811_212213
+::
+::  https://github.com/neorobin/WIN10CMD_Console-Virtual-Terminal-Sequences_ANSI/blob/master/pointer_digital_dual_display_clock_WIN10/pointer_digital_dual_display_clock_WIN10_EN_COMMENT.cmd
+::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 @echo off & setlocal DISABLEDELAYEDEXPANSION & >nul chcp 437
 
 (for /f "delims==" %%a in ('set') do set "%%a=") & set "Path=%SystemRoot%\system32"
