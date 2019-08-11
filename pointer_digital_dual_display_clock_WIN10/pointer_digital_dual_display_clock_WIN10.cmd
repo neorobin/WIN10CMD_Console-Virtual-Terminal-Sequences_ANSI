@@ -54,7 +54,7 @@ set "_COS=(10000-t*t/20000+t*t/1875*t/15625*t/819200-t*t/1875*t/15360*t/15625*t/
 
 set /a "_PI=31416, _2PI=2*_PI, _PI#2=_PI/2, _3PI#2=3*_PI/2, _3PI#2_1=_3PI#2-1, _DEG=_PI/180, _6DEG=6*_PI/180, _30DEG=30*_PI/180, _3.6DEG=36*_PI/(180*10)"
 
-set /a "_XCZOOM = 10000 * _WID/2, _XC=_WID/2+1, _YCZOOM = 10000 * _HEI/2, _YC=_HEI/2+1, _TH0=!random! %% 360 * %_DEG%, _TH0=-_PI#2"
+set /a "_XCZOOM = 10000 * _WID/2, _XC=_WID/2+1, _YCZOOM = 10000 * _HEI/2, _YC=_HEI/2+1, _TH0=-_PI#2"
 
 set /a "_2XC=2*_XC, _2YC=2*_YC"
 
@@ -83,7 +83,7 @@ set "_RGB_SCALE=0;0;255"
 set "_RGB_FACE=255;255;255"
 
 set "$erase_last_pin="
-set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0, _DTH=-_SPEED"
+set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0"
 
 set /a "_CENTISECONDS_OF_A_DAY=24*60*60*100"
 
