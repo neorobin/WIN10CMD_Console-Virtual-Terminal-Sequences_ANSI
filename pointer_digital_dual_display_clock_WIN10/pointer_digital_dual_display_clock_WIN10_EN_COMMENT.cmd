@@ -213,7 +213,7 @@ set /a "_GAP=2<<5"
         REM The logic of N is exactly the same as M, replaced by M
 
         for %%L in ("A B C" "D _ F" "G H C" "J _ L" "M M C") do (
-            REM 每行从左到右依次计算并填充各个位置
+            REM Calculate and fill each position from left to right in each row
             for %%d in (0 _ 1 _ : _ 3 _ 4 _ : _ 6 _ 7 _ : _ 9 _ 10) do (
                 if "%%d" geq "0" (
                     REM 获取数字准备计算 是否 显示

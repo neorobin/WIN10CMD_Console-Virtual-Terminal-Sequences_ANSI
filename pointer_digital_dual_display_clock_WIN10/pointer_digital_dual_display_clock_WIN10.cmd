@@ -116,7 +116,7 @@ set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
 title pointer_digital_dual_display_clock_WIN10
 
-REM 每 _GAP 帧计算一次 FPS, ! _GAP 必须是不小于 2 的 2的幂
+REM 每 _GAP 帧计算一次 FPS, ! _GAP 必须是 2 的幂, 并且不小于 2
 set /a "_GAP=2<<5"
 
 (
