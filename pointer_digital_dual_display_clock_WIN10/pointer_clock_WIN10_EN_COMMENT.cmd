@@ -1,6 +1,6 @@
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::
-::  指针时钟
+::  Pointer Clock
 ::
 ::  pointer_clock_WIN10.cmd
 ::
@@ -38,7 +38,7 @@ set "Path="
 set "_SIN=(#-#*#/1875*#/320000+#*#/1875*#/15625*#/16000*#/2560000-#*#/1875*#/15360*#/15625*#/15625*#/16000*#/44800000)"
 set "_COS=(10000-#*#/20000+#*#/1875*#/15625*#/819200-#*#/1875*#/15360*#/15625*#/15625*#/10240000+#*#/1875*#/15360*#/15625*#/15625*#/16000*#/15625*#/229376000)"
 
-REM 角度常量, 不直接用字面数值, 让 宏代码 定义更易读
+REM Angle constants, not directly using literal values, making macro code definitions more readable
 set /a "_PI=31416, _2PI=2*_PI, _PI#2=_PI/2, _3PI#2=3*_PI/2, _3PI#2_1=_3PI#2-1"
 
 set "_SIN(t)=(#=(t) %% %_2PI%, #+=#>>31&%_2PI%, #1=(#-%_PI#2%^#-%_3PI#2%)>>31, #3=%_3PI#2_1%-#>>31, #=(-#&#1)+(#&~#1)+(%_PI%&#1)+(-%_2PI%&#3), %_SIN%)"
@@ -84,7 +84,7 @@ set /a "_CENTISECONDS_OF_A_DAY=24*60*60*100"
 
 set "_LEFT37DOWN1=%_ESC%[37D%_ESC%[1B"
 
-REM 每 _GAP 帧计算一次 FPS, ! _GAP 必须是 2 的幂, 并且不小于 2
+REM Calculate FPS once per _GAP frame, ! _GAP must be a power of 2, and not less than 2
 set /a "_GAP=2<<5"
 
 (
