@@ -53,11 +53,6 @@ color 0F & mode %_WID%,%_HEI%
 REM The work that needs "Path" is done, now you can clean it up.
 set "Path="
 
-REM set "_SIN=(t-t*t/1875*t/320000+t*t/1875*t/15625*t/16000*t/2560000-t*t/1875*t/15360*t/15625*t/15625*t/16000*t/44800000)"
-REM set "_COS=(10000-t*t/20000+t*t/1875*t/15625*t/819200-t*t/1875*t/15360*t/15625*t/15625*t/10240000+t*t/1875*t/15360*t/15625*t/15625*t/16000*t/15625*t/229376000)"
-
-
-
 
 set "_SIN=(#-#*#/1875*#/320000+#*#/1875*#/15625*#/16000*#/2560000-#*#/1875*#/15360*#/15625*#/15625*#/16000*#/44800000)"
 set "_COS=(10000-#*#/20000+#*#/1875*#/15625*#/819200-#*#/1875*#/15360*#/15625*#/15625*#/10240000+#*#/1875*#/15360*#/15625*#/15625*#/16000*#/15625*#/229376000)"
@@ -70,8 +65,6 @@ set "_SIN(t)=(#=(t) %% %_2PI%, #+=#>>31&%_2PI%, #1=(#-%_PI#2%^#-%_3PI#2%)>>31, #
 set "_COS(t)=(#=(t) %% %_2PI%, #+=#>>31&%_2PI%, #1=(#-%_PI#2%^#-%_3PI#2%)>>31, #3=%_3PI#2_1%-#>>31, #=(-#&#1)+(#&~#1)+(%_PI%&#1)+(-%_2PI%&#3), #=%_COS%, (-#&#1)+(#&~#1))"
 
 set "_SIN(t),_COS(t)=(#=(t) %% %_2PI%, #+=#>>31&%_2PI%, #1=(#-%_PI#2%^#-%_3PI#2%)>>31, #3=%_3PI#2_1%-#>>31, #=(-#&#1)+(#&~#1)+(%_PI%&#1)+(-%_2PI%&#3), #S=%_SIN%, #=%_COS%, #C=(-#&#1)+(#&~#1))"
-
-
 
 
 set /a "_PI=31416, _2PI=2*_PI, _PI#2=_PI/2, _3PI#2=3*_PI/2, _3PI#2_1=_3PI#2-1, _DEG=_PI/180, _6DEG=6*_PI/180, _30DEG=30*_PI/180, _3.6DEG=36*_PI/(180*10)"
@@ -146,7 +139,6 @@ set /a "_GAP=2<<5"
 
 	REM gen clock dial: rotary scanning polishing edge
 	for /L %%i in (0 1 %_DENSITY%) do (
-		REM set /a "th+=%_SPEED%, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1),  #x=(%_XCZOOM%+%_R_FACE%*#C)/10000+1, #y=(%_YCZOOM%+%_R_FACE%*#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
 
 		set /a "th+=%_SPEED%, %_SIN(t),_COS(t):t=th%, #x=(%_XCZOOM%+%_R_FACE%*#C)/10000+1, #y=(%_YCZOOM%+%_R_FACE%*#S)/10000+1, #x_=%_2XC%-#x, #y_=%_2YC%-#y"
 
@@ -162,11 +154,6 @@ set /a "_GAP=2<<5"
 	<nul set /p "=%_ESC%[48;2;%_RGB_FACE%m"
 	for /L %%i in (0 1 3) do (
 		set /a "r3=%%i %% 3"
-
-
-
-
-		REM set /a "th=-%_PI#2% + %%i*%_2PI%/12, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 
 		set /a "th=-%_PI#2% + %%i*%_2PI%/12, %_SIN(t),_COS(t):t=th%, $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 
@@ -198,13 +185,8 @@ set /a "_GAP=2<<5"
 
 		REM Draw 4 pointers
 		for %%K in (C S M H) do (
-			REM set /a "th=th_%%K, th%%=%_2PI%, t=th+=th>>31&%_2PI%, s1=(t-%_PI#2%^t-%_3PI#2%)>>31, s3=%_3PI#2_1%-t>>31, t=(-t&s1)+(t&~s1)+(%_PI%&s1)+(-%_2PI%&s3), #S=%_SIN%, t=%_COS%, #C=(-t&s1)+(t&~s1), $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 
-
-			set /a "th=th_%%K,  %_SIN(t),_COS(t):t=th%,  $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
-
-
-
+			set /a "th=th_%%K, %_SIN(t),_COS(t):t=th%, $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 
 			for /l %%a in (0 1 !_PIN_LEN_%%K!) do (
 				set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
