@@ -34,7 +34,7 @@ for /F %%a in ('echo prompt $E^| cmd') do set "_ESC=%%a"
 set "_PEN=#"
 set "_PEN_SCALE=*"
 
-set /a "_SIZE=50" & REM Set the size of the clock, recommended from 37 to 100
+set /a "_SIZE=51" & REM Set the size of the clock, recommended from 37 to 100
 
 set /a "_WID_FIFTEEN_SEGMENT_DISPLAY_LOW_LIMIT=37"
 
