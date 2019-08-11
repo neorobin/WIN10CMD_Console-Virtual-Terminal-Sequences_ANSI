@@ -1,12 +1,9 @@
 @echo off & setlocal enabledelayedexpansion
 >nul chcp 437
-
 (for /f "delims==" %%a in ('set') do set "%%a=") & set "Path=%SystemRoot%\system32"
 
 for /F %%a in ('echo prompt $E^| cmd') do set "_ESC=%%a"
-
 set "_PEN=#"
-
 set "_PEN_SCALE=*"
 
 set /a "_SIZE=51" & REM Set the size of the clock, recommended from 29 to 100
@@ -23,9 +20,7 @@ set "_COS=(10000-t*t/20000+t*t/1875*t/15625*t/819200-t*t/1875*t/15360*t/15625*t/
 
 set /a "_PI=31416, _2PI=2*_PI, _PI#2=_PI/2, _3PI#2=3*_PI/2, _3PI#2_1=_3PI#2-1, _DEG=_PI/180, _6DEG=6*_PI/180, _30DEG=30*_PI/180, _3.6DEG=36*_PI/(180*10)"
 
-set /a "_XCZOOM = 10000 * _WID/2, _XC=_WID/2+1, _YCZOOM = 10000 * _HEI/2, _YC=_HEI/2+1, _TH0=!random! %% 360 * %_DEG%, _TH0=0"
-REM set /a "_2XC=(%_XCZOOM%/10000+1)*2, _2YC=(%_YCZOOM%/10000+1)*2"
-set /a "_2XC=2*_XC, _2YC=2*_YC"
+set /a "_XCZOOM = 10000 * _WID/2, _XC=_WID/2+1, _YCZOOM = 10000 * _HEI/2, _YC=_HEI/2+1, _TH0=!random! %% 360 * %_DEG%, _TH0=0, _2XC=2*_XC, _2YC=2*_YC"
 
 REM <nul set /p "=%_ESC%[!p"
 
@@ -53,13 +48,13 @@ REM <nul set /p "=%_ESC%[!p"
 set "_RGB_SCALE=0;0;255"
 set "_RGB_FACE=255;255;255"
 
-set "$erase_last_pin="
 set /a "_DENSITY=150,  _SPEED=%_2PI%/_DENSITY, _SPEED=3*%_DEG%, th=_TH0+%_2PI%, _DTH=-_SPEED"
 set /a "_DDS_OF_A_DAY=24*60*60*100"
 
 REM 每 _GAP 帧计算一次 FPS, ! _GAP 必须是不小于 2 的 2的幂
 set /a "_GAP=2<<6"
 
+set "$erase_last_pin="
 (
 	for /f "delims==" %%a in ('set _') do set "%%a="
 
@@ -148,12 +143,10 @@ set /a "_GAP=2<<6"
 		set "$pin="
 
 		title !tm!
-
 		set /a "t=-((_cnt+=1)&(%_GAP%-1))>>31, $$=($u=((HH*60+MM)*60+SS)*100+DD)-$v, $$+=$$>>31&%_DDS_OF_A_DAY%, $$=(~t&$$)+(t&1), FPS=(~t&(100*%_GAP%/$$))+(t&FPS), $v=(~t&$u)+(t&$v)"
 		if !t!==0 (
 			<nul set /p "=%_ESC%[48;2;0;0;0m%_ESC%[1;1HFPS:!FPS! %_ESC%[48;2;%_RGB_FACE%m"
 		)
-
 	)
 )
 
