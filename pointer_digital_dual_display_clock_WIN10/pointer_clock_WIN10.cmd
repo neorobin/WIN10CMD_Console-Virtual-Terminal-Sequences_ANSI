@@ -1,8 +1,8 @@
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::
-::  指针数字双显时钟
+::  指针时钟
 ::
-::  pointer_digital_dual_display_clock_WIN10.cmd
+::  pointer_clock_WIN10.cmd
 ::
 ::  author: neorobin ver: 20190811_222058
 ::
