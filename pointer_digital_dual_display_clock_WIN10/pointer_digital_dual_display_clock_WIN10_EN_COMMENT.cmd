@@ -205,11 +205,12 @@ set /a "_GAP=2<<5"
         REM Fifteen segment display
 
         set "S=" & set "_0or1=0"
-        REM 从上到下 逐次 生成 1~5 行图形
 
+        REM Generate 1st to 5th line graphs one by one from top to bottom
+        
         REM "A B C" "D _ F" "G H I" "J _ L" "M N O"
-        REM I 和 O 的逻辑与 C 完全一致, 由 C 代替
-        REM N 的逻辑与 M 完全一致, 由 M 代替
+        REM The logic of I and O is exactly the same as C, replaced by C
+        REM The logic of N is exactly the same as M, replaced by M
 
         for %%L in ("A B C" "D _ F" "G H C" "J _ L" "M M C") do (
             REM 每行从左到右依次计算并填充各个位置
