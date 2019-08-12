@@ -2,7 +2,7 @@
 ::
 ::  pointer_digital_dual_display_clock_WIN10_EN_COMMENT.cmd
 ::
-::  author: neorobin ver: 20190811_222058
+::  author: neorobin ver: 20190812_190023
 ::
 ::  https://github.com/neorobin/WIN10CMD_Console-Virtual-Terminal-Sequences_ANSI/blob/master/pointer_digital_dual_display_clock_WIN10/pointer_digital_dual_display_clock_WIN10_EN_COMMENT.cmd
 ::
@@ -55,7 +55,7 @@ set /a "_s=(_SIZE-15)>>31, _SIZE=(_LOW_LIMIT_OF_WIDTH_OF_FIFTEEN_SEGMENT_DISPLAY
 
 set /a "_WID=_HEI=_SIZE|1,_R_FACE=_WID/2-1, _R_FACE_SQ=_R_FACE*_R_FACE, _R_FACE_1=_R_FACE-1,_R_FACE_2=_R_FACE-2"
 
-set /a "_LEFT_FIFTEEN_SEGMENT_DISPLAY=(_WID-_LOW_LIMIT_OF_WIDTH_OF_FIFTEEN_SEGMENT_DISPLAY)/2+1, _TOP_FIFTEEN_SEGMENT_DISPLAY=_WID/2+_R_FACE/4"
+set /a "_LEFT_FIFTEEN_SEGMENT_DISPLAY=(_WID-_LOW_LIMIT_OF_WIDTH_OF_FIFTEEN_SEGMENT_DISPLAY)/2+1, _TOP_FIFTEEN_SEGMENT_DISPLAY=_WID/2+_R_FACE/4, _RIGHT_PLUS_1_FIFTEEN_SEGMENT_DISPLAY=_LEFT_FIFTEEN_SEGMENT_DISPLAY+_LOW_LIMIT_OF_WIDTH_OF_FIFTEEN_SEGMENT_DISPLAY, _BOTTOM_PLUS_1_FIFTEEN_SEGMENT_DISPLAY=_TOP_FIFTEEN_SEGMENT_DISPLAY+5"
 
 color 0F & mode %_WID%,%_HEI%
 
@@ -192,8 +192,13 @@ set /a "_GAP=2<<5"
             set /a "th=th_%%K, %_SIN(t),_COS(t):t=th%, $x=%_XCZOOM%-#C, $y=%_YCZOOM%-#S"
 
             for /l %%a in (0 1 !_PIN_LEN_%%K!) do (
-                set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1"
-                set "$pin=%_ESC%[!#y!;!#x!H%_PEN%!$pin!"
+                REM (#-a^#-b)>>31 == -1    : # in [a,b)
+                REM (#-a^#-(b+1))>>31 == -1: # in [a,b]
+                REM hid: Let the pointer be occluded in the digital display area
+                set /a "#x=($x+=#C)/10000+1, #y=($y+=#S)/10000+1, hid=(#x-%_LEFT_FIFTEEN_SEGMENT_DISPLAY%^#x-%_RIGHT_PLUS_1_FIFTEEN_SEGMENT_DISPLAY%)&(#y-%_TOP_FIFTEEN_SEGMENT_DISPLAY%^#y-%_BOTTOM_PLUS_1_FIFTEEN_SEGMENT_DISPLAY%)"
+                if !hid! geq 0 (
+                    set "$pin=%_ESC%[!#y!;!#x!H%_PEN%!$pin!"
+                )
             )
             set "$pin=%_ESC%[38;2;!_RGB_%%K!m!$pin!"
         )
